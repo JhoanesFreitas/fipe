@@ -1,4 +1,4 @@
-package com.cajusoftware.fipe.data.fakes
+package com.cajusoftware.test.fipe.fakes
 
 import com.cajusoftware.fipe.data.database.domain.Vehicle
 

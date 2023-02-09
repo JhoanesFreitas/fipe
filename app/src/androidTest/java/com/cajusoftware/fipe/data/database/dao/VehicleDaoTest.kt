@@ -5,10 +5,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cajusoftware.fipe.data.database.FipeDatabase
-import com.cajusoftware.fipe.data.fakes.FakeDataSource.vehicleList
 import com.cajusoftware.fipe.utils.exts.asVehicleData
+import com.cajusoftware.test.fipe.fakes.FakeDataSource.vehicleList
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -73,6 +74,15 @@ class VehicleDaoTest {
 
         val vehicle = vehicleDao.getVehicle(vehicleList.first().fipeCode)
         assertEquals(vehicleList.first().asVehicleData(), vehicle.first())
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun daoGetVehicle_returnsNullIfHasNonExistentVehicleFromDatabase() = runBlocking {
+        addOneItemToDb()
+
+        val vehicle = vehicleDao.getVehicle("98980776")
+        assertNull(vehicle.first())
     }
 
     @Before

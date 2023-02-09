@@ -9,9 +9,9 @@ interface VehicleRepository {
 
     fun getVehicle(fipeCode: String): Flow<Vehicle?>
 
-    suspend fun insertItem(vehicle: Vehicle)
+    suspend fun insertVehicle(vehicle: Vehicle)
 
-    suspend fun deleteItem(vehicle: Vehicle)
+    suspend fun deleteVehicle(vehicle: Vehicle)
 
-    suspend fun updateItem(vehicle: Vehicle)
+    suspend fun updateVehicle(vehicle: Vehicle)
 }

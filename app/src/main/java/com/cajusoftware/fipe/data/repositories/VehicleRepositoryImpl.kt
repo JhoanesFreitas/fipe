@@ -15,12 +15,12 @@ class VehicleRepositoryImpl(private val vehicleDao: VehicleDao) : VehicleReposit
     override fun getVehicle(fipeCode: String): Flow<Vehicle?> =
         vehicleDao.getVehicle(fipeCode).map { it.asVehicleModel() }
 
-    override suspend fun insertItem(vehicle: Vehicle) =
+    override suspend fun insertVehicle(vehicle: Vehicle) =
         vehicleDao.insert(vehicle.asVehicleData())
 
-    override suspend fun deleteItem(vehicle: Vehicle) =
+    override suspend fun deleteVehicle(vehicle: Vehicle) =
         vehicleDao.delete(vehicle.asVehicleData())
 
-    override suspend fun updateItem(vehicle: Vehicle) =
+    override suspend fun updateVehicle(vehicle: Vehicle) =
         vehicleDao.update(vehicle.asVehicleData())
 }
