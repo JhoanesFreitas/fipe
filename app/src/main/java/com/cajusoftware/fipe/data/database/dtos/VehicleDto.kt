@@ -1,11 +1,11 @@
-package com.cajusoftware.fipe.data.database.entities
+package com.cajusoftware.fipe.data.database.dtos
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "vehicle")
-data class VehicleData(
+data class VehicleDto(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "fipe_code")
     val fipeCode: String,

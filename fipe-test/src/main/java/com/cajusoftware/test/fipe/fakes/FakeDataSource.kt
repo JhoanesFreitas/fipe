@@ -1,6 +1,10 @@
 package com.cajusoftware.test.fipe.fakes
 
-import com.cajusoftware.fipe.data.database.domain.Vehicle
+import com.cajusoftware.fipe.data.domain.Brand
+import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
+import com.cajusoftware.fipe.data.network.model.BrandResponseDto
+import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
 
 object FakeDataSource {
     private const val fipeCodeOne: String = "004399-0"
@@ -23,8 +27,8 @@ object FakeDataSource {
     private const val vehicleTypeTwo: Int = 1
     private const val fuelAcronymTwo: String = "G"
 
-    val vehicleList = listOf(
-        Vehicle(
+    val vehicleResponseDtoLists = listOf(
+        VehicleResponseDto(
             fipeCodeOne,
             vehiclePriceOne,
             vehicleBrandOne,
@@ -35,7 +39,7 @@ object FakeDataSource {
             vehicleTypeOne,
             fuelAcronymOne
         ),
-        Vehicle(
+        VehicleResponseDto(
             fipeCodeTwo,
             vehiclePriceTwo,
             vehicleBrandTwo,
@@ -45,6 +49,62 @@ object FakeDataSource {
             referenceMonthTwo,
             vehicleTypeTwo,
             fuelAcronymTwo
+        )
+    )
+
+    private const val chevrolet = "GM - Chevrolet"
+    private const val chevroletCode = "23"
+
+    private const val honda = "GM - Chevrolet"
+    private const val hondaCode = "25"
+
+    val brandResponseDtoLists = listOf(
+        BrandResponseDto(
+            chevroletCode,
+            chevrolet
+        ),
+        BrandResponseDto(
+            hondaCode,
+            honda
+        )
+    )
+
+    val brandsList = listOf(
+        Brand(
+            chevroletCode,
+            chevrolet
+        ),
+        Brand(
+            hondaCode,
+            honda
+        )
+    )
+
+    private const val modelNameOne = "ONIX SEDAN Plus LTZ 1.0 12V TB Flex Aut."
+    private const val modelCodeOne = "8827"
+
+    private const val modelNameTwo = "TRACKER LT 1.8 16V Flex 4x2 Aut."
+    private const val modelCodeTwo = "7428"
+
+    val brandModelsDtoList = listOf(
+        BrandModelResponseDto(
+            modelCodeOne,
+            modelNameOne
+        ),
+        BrandModelResponseDto(
+            modelCodeTwo,
+            modelNameTwo
+        )
+    )
+
+    val brandModelsList = listOf(
+        BrandModel(
+            modelCodeOne,
+            modelNameOne
+        ),
+        BrandModel(
+            modelCodeTwo,
+            modelNameTwo
         )
     )
 }

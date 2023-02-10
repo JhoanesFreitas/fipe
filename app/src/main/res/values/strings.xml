@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fipe</string>
+    <string name="vehicle_brand_number">O número de marcas retornadas foi de %d</string>
 </resources>

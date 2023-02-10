@@ -1,7 +1,9 @@
 package com.cajusoftware.fipe.data.repositories
 
-import com.cajusoftware.fipe.utils.exts.asVehicleData
-import com.cajusoftware.test.fipe.fakes.FakeDataSource.vehicleList
+import com.cajusoftware.fipe.data.repositories.models.VehicleRepositoryImpl
+import com.cajusoftware.fipe.utils.exts.asVehicleDto
+import com.cajusoftware.test.fipe.fakes.FakeDataSource.vehicleResponseDtoLists
+import com.cajusoftware.test.fipe.fakes.FakeVehicleApiService
 import com.cajusoftware.test.fipe.fakes.FakeVehicleDao
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
@@ -12,39 +14,40 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class VehicleRepositoryTest {
+class VehicleResponseDtoRepositoryTest {
 
     private val fakeVehicleDao = FakeVehicleDao()
-    private val repository = VehicleRepositoryImpl(fakeVehicleDao)
+    private val fakeVehicleApiService = FakeVehicleApiService()
+    private val repository = VehicleRepositoryImpl(fakeVehicleDao, fakeVehicleApiService)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun addVehicles() = runTest {
         fakeVehicleDao.apply {
-            insert(vehicleList.first().asVehicleData())
-            insert(vehicleList.last().asVehicleData())
+            insert(vehicleResponseDtoLists.first().asVehicleDto())
+            insert(vehicleResponseDtoLists.last().asVehicleDto())
         }
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_getAllVehicles_verifyVehicleList() = runTest {
-        assertEquals(vehicleList, repository.getAllVehicles().first())
+        assertEquals(vehicleResponseDtoLists, repository.getAllVehicles().first())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_getVehicle_verifyVehicle() = runTest {
         assertEquals(
-            vehicleList.first(),
-            repository.getVehicle(vehicleList.first().fipeCode).first()
+            vehicleResponseDtoLists.first(),
+            repository.getVehicle(vehicleResponseDtoLists.first().fipeCode).first()
         )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_insertVehicle_verifyVehicleIsOnDatabase() = runTest {
-        val newVehicle = vehicleList.first().copy(fipeCode = "13542")
+        val newVehicle = vehicleResponseDtoLists.first().copy(fipeCode = "13542")
         repository.insertVehicle(newVehicle)
         assertEquals(
             newVehicle,
@@ -55,7 +58,7 @@ class VehicleRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_updateVehicle_verifyVehicleWasChangedOnDatabase() = runTest {
-        val newVehicle = vehicleList.first().copy(fipeCode = "15432")
+        val newVehicle = vehicleResponseDtoLists.first().copy(fipeCode = "15432")
         repository.insertVehicle(newVehicle)
         val updatedVehicle = newVehicle.copy(modelYear = 2022)
         repository.updateVehicle(updatedVehicle)
@@ -68,7 +71,7 @@ class VehicleRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_deleteVehicle_verifyVehicleIsOnDatabase() = runTest {
-        val newVehicle = vehicleList.first().copy(fipeCode = "54132")
+        val newVehicle = vehicleResponseDtoLists.first().copy(fipeCode = "54132")
         repository.insertVehicle(newVehicle)
         repository.deleteVehicle(newVehicle)
         assertNull(repository.getVehicle(newVehicle.fipeCode).firstOrNull())

@@ -1,6 +1,6 @@
-package com.cajusoftware.fipe.data.database.domain
+package com.cajusoftware.fipe.data.network.model
 
-data class Vehicle(
+data class VehicleResponseDto(
     val fipeCode: String,
     val vehiclePrice: String,
     val vehicleBrand: String,

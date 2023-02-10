@@ -5,8 +5,8 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.cajusoftware.fipe.data.database.FipeDatabase
-import com.cajusoftware.fipe.utils.exts.asVehicleData
-import com.cajusoftware.test.fipe.fakes.FakeDataSource.vehicleList
+import com.cajusoftware.fipe.utils.exts.asVehicleDto
+import com.cajusoftware.test.fipe.fakes.FakeDataSource.vehicleResponseDtoLists
 import junit.framework.TestCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNull
@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class VehicleDaoTest {
+class VehicleResponseDtoDaoTest {
 
     private lateinit var vehicleDao: VehicleDao
     private lateinit var fipeDatabase: FipeDatabase
@@ -29,7 +29,7 @@ class VehicleDaoTest {
     fun daoInset_insertVehicleIntoDatabase() = runBlocking {
         addOneItemToDb()
         val allVehicles = vehicleDao.getVehicles().first()
-        assertEquals(vehicleList.first().asVehicleData(), allVehicles.first())
+        assertEquals(vehicleResponseDtoLists.first().asVehicleDto(), allVehicles.first())
     }
 
     @Test
@@ -37,17 +37,17 @@ class VehicleDaoTest {
     fun daoGetAllVehicles_returnAllVehiclesFromDatabase() = runBlocking {
         addTwoItemsToDb()
         val allVehicles = vehicleDao.getVehicles().first()
-        assertEquals(vehicleList.first().asVehicleData(), allVehicles.first())
-        assertEquals(vehicleList.last().asVehicleData(), allVehicles.last())
+        assertEquals(vehicleResponseDtoLists.first().asVehicleDto(), allVehicles.first())
+        assertEquals(vehicleResponseDtoLists.last().asVehicleDto(), allVehicles.last())
     }
 
     @Test
     @Throws(Exception::class)
     fun daoUpdateVehicles_updatesVehiclesInDatabase() = runBlocking {
         addTwoItemsToDb()
-        val updatedVehicleOne = vehicleList.first().copy(modelYear = 2017).asVehicleData()
+        val updatedVehicleOne = vehicleResponseDtoLists.first().copy(modelYear = 2017).asVehicleDto()
         val updatedVehicleTwo =
-            vehicleList.last().copy(vehiclePrice = "R$ 71.000,00").asVehicleData()
+            vehicleResponseDtoLists.last().copy(vehiclePrice = "R$ 71.000,00").asVehicleDto()
         vehicleDao.update(updatedVehicleOne)
         vehicleDao.update(updatedVehicleTwo)
 
@@ -60,8 +60,8 @@ class VehicleDaoTest {
     @Throws(Exception::class)
     fun daoDeleteVehicles_deletesAllItemsFromDatabase() = runBlocking {
         addTwoItemsToDb()
-        vehicleDao.delete(vehicleList.first().asVehicleData())
-        vehicleDao.delete(vehicleList.last().asVehicleData())
+        vehicleDao.delete(vehicleResponseDtoLists.first().asVehicleDto())
+        vehicleDao.delete(vehicleResponseDtoLists.last().asVehicleDto())
 
         val allItems = vehicleDao.getVehicles().first()
         TestCase.assertTrue(allItems.isEmpty())
@@ -72,8 +72,8 @@ class VehicleDaoTest {
     fun daoGetVehicle_returnsVehicleFromDatabase() = runBlocking {
         addOneItemToDb()
 
-        val vehicle = vehicleDao.getVehicle(vehicleList.first().fipeCode)
-        assertEquals(vehicleList.first().asVehicleData(), vehicle.first())
+        val vehicle = vehicleDao.getVehicle(vehicleResponseDtoLists.first().fipeCode)
+        assertEquals(vehicleResponseDtoLists.first().asVehicleDto(), vehicle.first())
     }
 
     @Test
@@ -95,12 +95,12 @@ class VehicleDaoTest {
     }
 
     private suspend fun addOneItemToDb() {
-        vehicleDao.insert(vehicleList.first().asVehicleData())
+        vehicleDao.insert(vehicleResponseDtoLists.first().asVehicleDto())
     }
 
     private suspend fun addTwoItemsToDb() {
-        vehicleDao.insert(vehicleList.first().asVehicleData())
-        vehicleDao.insert(vehicleList.last().asVehicleData())
+        vehicleDao.insert(vehicleResponseDtoLists.first().asVehicleDto())
+        vehicleDao.insert(vehicleResponseDtoLists.last().asVehicleDto())
     }
 
     @After

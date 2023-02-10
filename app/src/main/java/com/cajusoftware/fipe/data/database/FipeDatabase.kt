@@ -5,12 +5,20 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.cajusoftware.fipe.BuildConfig
+import com.cajusoftware.fipe.data.database.dao.BrandDao
 import com.cajusoftware.fipe.data.database.dao.VehicleDao
-import com.cajusoftware.fipe.data.database.entities.VehicleData
+import com.cajusoftware.fipe.data.database.dtos.BrandDto
+import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
+import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 
-@Database(entities = [VehicleData::class], version = BuildConfig.VERSION_CODE, exportSchema = false)
+@Database(
+    entities = [VehicleDto::class, BrandDto::class, BrandModelDto::class],
+    version = BuildConfig.VERSION_CODE,
+    exportSchema = false
+)
 abstract class FipeDatabase : RoomDatabase() {
     abstract fun vehicleDao(): VehicleDao
+    abstract fun vehicleBrandDao(): BrandDao
 
     companion object {
         @Volatile
