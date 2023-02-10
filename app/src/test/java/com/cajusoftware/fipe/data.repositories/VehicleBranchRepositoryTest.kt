@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Test
 
-class VehicleResponseDtoBranchRepositoryTest {
+class VehicleBranchRepositoryTest {
     private val fakeVehicleBrandDao = FakeBrandDao()
     private val fakeVehicleApiService = FakeVehicleApiService()
     private val repository = VehicleBrandRepositoryImpl(fakeVehicleBrandDao, fakeVehicleApiService)

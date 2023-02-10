@@ -16,11 +16,11 @@ class FakeBrandDao : BrandDao {
         brandModelsList.clear()
     }
 
-    override fun insertAllBrands(vehicleBrands: List<BrandDto>) {
+    override suspend fun insertAllBrands(vehicleBrands: List<BrandDto>) {
         vehiclesBrandsList.addAll(vehicleBrands)
     }
 
-    override fun insertAllBrandModels(brandModels: List<BrandModelDto>) {
+    override suspend fun insertAllBrandModels(brandModels: List<BrandModelDto>) {
         brandModelsList.addAll(brandModels)
     }
 

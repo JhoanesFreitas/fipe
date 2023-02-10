@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class VehicleResponseDtoDaoTest {
+class VehicleDaoTest {
 
     private lateinit var vehicleDao: VehicleDao
     private lateinit var fipeDatabase: FipeDatabase

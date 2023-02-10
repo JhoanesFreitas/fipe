@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class VehicleResponseDtoRepositoryTest {
+class VehicleRepositoryTest {
 
     private val fakeVehicleDao = FakeVehicleDao()
     private val fakeVehicleApiService = FakeVehicleApiService()

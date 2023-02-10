@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface BrandDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllBrands(vehicleBrands: List<BrandDto>)
+    suspend fun insertAllBrands(vehicleBrands: List<BrandDto>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllBrandModels(brandModels: List<BrandModelDto>)
+    suspend fun insertAllBrandModels(brandModels: List<BrandModelDto>)
 
     @Query("SELECT * from vehicle_brand")
     fun getVehiclesBrands(): Flow<List<BrandDto>>
