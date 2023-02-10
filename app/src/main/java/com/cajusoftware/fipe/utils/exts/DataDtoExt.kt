@@ -2,9 +2,12 @@ package com.cajusoftware.fipe.utils.exts
 
 import com.cajusoftware.fipe.data.database.dtos.BrandDto
 import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
+import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
 import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.domain.ModelYear
+import com.cajusoftware.fipe.data.domain.Vehicle
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
 import com.cajusoftware.fipe.data.network.model.BrandResponseDto
 import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
@@ -26,6 +29,32 @@ fun VehicleDto.asVehicleResponseDto(): VehicleResponseDto =
         vehicleType,
         fuelAcronym
     )
+
+fun List<VehicleDto>.asVehicle(): List<Vehicle> =
+    map {
+        it.asVehicle()
+    }
+
+fun VehicleDto.asVehicle(): Vehicle =
+    Vehicle(
+        fipeCode,
+        value,
+        brand,
+        brandModel,
+        modelYear,
+        modelFuel,
+        referenceMonth,
+        vehicleType,
+        fuelAcronym
+    )
+
+fun List<ModelYearDto>.asModelYear(): List<ModelYear> =
+    map {
+        it.asModelYear()
+    }
+
+fun ModelYearDto.asModelYear(): ModelYear =
+    ModelYear(code, name)
 
 fun List<BrandDto>.asBrandResponseDto(): List<BrandResponseDto> =
     map {

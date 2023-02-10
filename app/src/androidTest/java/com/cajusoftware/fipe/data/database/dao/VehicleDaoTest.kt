@@ -95,12 +95,12 @@ class VehicleDaoTest {
     }
 
     private suspend fun addOneItemToDb() {
-        vehicleDao.insert(vehicleResponseDtoLists.first().asVehicleDto())
+        vehicleDao.insertVehicle(vehicleResponseDtoLists.first().asVehicleDto())
     }
 
     private suspend fun addTwoItemsToDb() {
-        vehicleDao.insert(vehicleResponseDtoLists.first().asVehicleDto())
-        vehicleDao.insert(vehicleResponseDtoLists.last().asVehicleDto())
+        vehicleDao.insertVehicle(vehicleResponseDtoLists.first().asVehicleDto())
+        vehicleDao.insertVehicle(vehicleResponseDtoLists.last().asVehicleDto())
     }
 
     @After

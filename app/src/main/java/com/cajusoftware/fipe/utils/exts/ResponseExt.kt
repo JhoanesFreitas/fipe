@@ -2,9 +2,11 @@ package com.cajusoftware.fipe.utils.exts
 
 import com.cajusoftware.fipe.data.database.dtos.BrandDto
 import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
+import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
 import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
 import com.cajusoftware.fipe.data.network.model.BrandResponseDto
+import com.cajusoftware.fipe.data.network.model.ModelYearResponseDto
 import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
 import java.text.NumberFormat
 
@@ -44,3 +46,14 @@ fun List<BrandModelResponseDto>.asBrandModelDto(): List<BrandModelDto> =
 
 fun BrandModelResponseDto.asBrandModelDto(): BrandModelDto =
     BrandModelDto(code, name)
+
+fun List<ModelYearResponseDto>.asModelYearDto(
+    brandNumber: String,
+    modelNumber: String
+): List<ModelYearDto> =
+    map {
+        it.asModelYearDto(brandNumber, modelNumber)
+    }
+
+fun ModelYearResponseDto.asModelYearDto(brandNumber: String, modelNumber: String): ModelYearDto =
+    ModelYearDto(code, name, brandNumber, modelNumber)

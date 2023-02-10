@@ -2,8 +2,11 @@ package com.cajusoftware.test.fipe.fakes
 
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.domain.ModelYear
+import com.cajusoftware.fipe.data.domain.Vehicle
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
 import com.cajusoftware.fipe.data.network.model.BrandResponseDto
+import com.cajusoftware.fipe.data.network.model.ModelYearResponseDto
 import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
 
 object FakeDataSource {
@@ -105,6 +108,84 @@ object FakeDataSource {
         BrandModel(
             modelCodeTwo,
             modelNameTwo
+        )
+    )
+
+    private const val yearNameOne = "2016 Gasolina"
+    private const val yearCodeOne = "2016-1"
+
+    private const val yearNameTwo = "2015 Gasolina"
+    private const val yearCodeTwo = "2015-1"
+
+    val modelYearsResponseList = listOf(
+        ModelYearResponseDto(
+            yearNameOne,
+            yearCodeOne
+        ),
+        ModelYearResponseDto(
+            yearNameTwo,
+            yearCodeTwo
+        )
+    )
+
+    val modelYearsList = listOf(
+        ModelYear(
+            yearNameOne,
+            yearCodeOne
+        ),
+        ModelYear(
+            yearNameTwo,
+            yearCodeTwo
+        )
+    )
+
+    val vehicleResponseList = listOf(
+        VehicleResponseDto(
+            fipeCodeOne,
+            vehiclePriceOne,
+            vehicleBrandOne,
+            brandModelOne,
+            modelYearOne,
+            modelFuelOne,
+            referenceMonthOne,
+            vehicleTypeOne,
+            fuelAcronymOne
+        ),
+        VehicleResponseDto(
+            fipeCodeTwo,
+            vehiclePriceTwo,
+            vehicleBrandTwo,
+            brandModelTwo,
+            modelYearTwo,
+            modelFuelTwo,
+            referenceMonthTwo,
+            vehicleTypeTwo,
+            fuelAcronymTwo
+        )
+    )
+
+    val vehicleList = listOf(
+        Vehicle(
+            fipeCodeOne,
+            vehiclePriceOne,
+            vehicleBrandOne,
+            brandModelOne,
+            modelYearOne,
+            modelFuelOne,
+            referenceMonthOne,
+            vehicleTypeOne,
+            fuelAcronymOne
+        ),
+        Vehicle(
+            fipeCodeTwo,
+            vehiclePriceTwo,
+            vehicleBrandTwo,
+            brandModelTwo,
+            modelYearTwo,
+            modelFuelTwo,
+            referenceMonthTwo,
+            vehicleTypeTwo,
+            fuelAcronymTwo
         )
     )
 }

@@ -1,17 +1,18 @@
 package com.cajusoftware.fipe.data.repositories.models
 
-import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
+import com.cajusoftware.fipe.data.domain.ModelYear
+import com.cajusoftware.fipe.data.domain.Vehicle
 import kotlinx.coroutines.flow.Flow
 
 interface VehicleRepository {
 
-    fun getAllVehicles(): Flow<List<VehicleResponseDto>>
+    val vehicles: Flow<List<Vehicle>>
 
-    fun getVehicle(fipeCode: String): Flow<VehicleResponseDto?>
+    suspend fun getVehicle(brandNumber: String, modelNumber: String, modelYear: String)
 
-    suspend fun insertVehicle(vehicleResponseDto: VehicleResponseDto)
+    fun getVehicleByFipeCode(fipeCode: String): Flow<Vehicle>
 
-    suspend fun deleteVehicle(vehicleResponseDto: VehicleResponseDto)
+    fun getModelYears(brandNumber: String, modelNumber: String): Flow<List<ModelYear>>
 
-    suspend fun updateVehicle(vehicleResponseDto: VehicleResponseDto)
+    suspend fun getAllModelYears(brandNumber: String, modelNumber: String)
 }

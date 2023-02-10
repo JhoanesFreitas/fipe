@@ -9,10 +9,11 @@ import com.cajusoftware.fipe.data.database.dao.BrandDao
 import com.cajusoftware.fipe.data.database.dao.VehicleDao
 import com.cajusoftware.fipe.data.database.dtos.BrandDto
 import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
+import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
 import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 
 @Database(
-    entities = [VehicleDto::class, BrandDto::class, BrandModelDto::class],
+    entities = [VehicleDto::class, BrandDto::class, BrandModelDto::class, ModelYearDto::class],
     version = BuildConfig.VERSION_CODE,
     exportSchema = false
 )
