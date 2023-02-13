@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Fipe</string>
     <string name="vehicle_brand_number">O número de marcas retornadas foi de %d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--  Accessibility  -->
+    <string name="menu_accessibility">Botão para abrir menu</string>
 </resources>

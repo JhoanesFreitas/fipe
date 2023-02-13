@@ -3,23 +3,44 @@ package com.cajusoftware.fipe.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.databinding.ActivityMainBinding
-import com.cajusoftware.fipe.di.ViewModelProvider.Factory
-import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
+import com.cajusoftware.fipe.ui.home.HomeFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
-    private val vehicleBrandViewModel: VehicleBrandViewModel by viewModels { Factory }
+    private lateinit var navController: NavController
 
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private lateinit var binding: ActivityMainBinding
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.lifecycleOwner = this
-        binding.viewModel = vehicleBrandViewModel
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.findNavController()
 
-        vehicleBrandViewModel.getAll()
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+
+        binding.toolbar.setupWithNavController(navController)
+        binding.filterButton.setOnClickListener {
+            navController.navigate(
+                HomeFragmentDirections.actionHomeFragmentToVehicleFragment()
+            )
+        }
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
