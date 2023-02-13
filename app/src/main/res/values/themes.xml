@@ -19,5 +19,9 @@
 
     <style name="Theme.Fipe.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Theme.Fipe.Search">
+        <item name="android:backgroundTint">@color/white_200</item>
+        <item name="android:background">@drawable/bg_search_view</item>
+    </style>
 
 </resources>

@@ -6,4 +6,6 @@
 
     <!--  Accessibility  -->
     <string name="menu_accessibility">Botão para abrir menu</string>
+    <string name="home_title">Vamos encontrar um modelo \npara você</string>
+    <string name="search_a_model">Busque por um modelo</string>
 </resources>
