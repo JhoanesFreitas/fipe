@@ -10,5 +10,4 @@ object NavUtils {
         NavController.OnDestinationChangedListener { controller, destination, _ ->
             destinationListener?.invoke(controller, destination)
         }
-
 }

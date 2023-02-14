@@ -28,10 +28,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v1/\""
+            buildConfigField "String", "THUMB_URL", "\"raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/thumb/\""
         }
 
         debug {
             buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v1/\""
+            buildConfigField "String", "THUMB_URL", "\"raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/thumb/\""
         }
     }
 
@@ -74,6 +76,10 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$moshi_legacy_version"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$kotlin_serialization_converter_version"
+    implementation "com.localebro:okhttpprofiler:$ok_http_profiler_version"
+
+    // Coil
+    implementation "io.coil-kt:coil:$coil_version"
 
     //tests
     testImplementation "junit:junit:$junit_version"

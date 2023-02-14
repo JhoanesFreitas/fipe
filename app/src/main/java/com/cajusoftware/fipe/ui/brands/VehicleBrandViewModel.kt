@@ -12,6 +12,10 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
 
     val vehicleBrands: LiveData<List<Brand>> = repository.vehicleBrands.asLiveData()
 
+    init {
+        getAll()
+    }
+
     fun getAll() {
         viewModelScope.launch {
             repository.getAllVehicleBrands()

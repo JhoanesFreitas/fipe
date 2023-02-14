@@ -9,9 +9,9 @@ import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
 
 object ViewModelProvider {
     val Factory = viewModelFactory {
-        initializer { VehicleBrandViewModel(inventoryApplication().appContainer.vehicleBrandRepository) }
+        initializer { VehicleBrandViewModel(fipeApplication().appContainer.vehicleBrandRepository) }
     }
 }
 
-fun CreationExtras.inventoryApplication(): FipeApplication =
+fun CreationExtras.fipeApplication(): FipeApplication =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FipeApplication)
