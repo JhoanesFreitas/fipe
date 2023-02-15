@@ -12,6 +12,7 @@ import com.cajusoftware.fipe.databinding.FragmentHomeBinding
 import com.cajusoftware.fipe.di.ViewModelProvider
 import com.cajusoftware.fipe.ui.brands.BrandAdapter
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
+import com.cajusoftware.fipe.ui.brands.models.ModelAdapter
 import com.cajusoftware.fipe.utils.NavUtils.navControllerDestinationChangeListener
 
 class HomeFragment : Fragment() {
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
 
         binding.lifecycleOwner = this
         binding.brandsRecyclerView.adapter = BrandAdapter()
+        binding.brandModelsRecyclerView.adapter = ModelAdapter(vehicleBrandViewModel, this)
         binding.viewModel = vehicleBrandViewModel
 
         return binding.root

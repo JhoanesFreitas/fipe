@@ -10,66 +10,72 @@
             type="com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/default_margin_padding"
-        tools:context=".ui.home.HomeFragment">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/home_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/title_margin_top"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/home_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.cajusoftware.fipe.ui.components.SearchView
-            android:id="@+id/search_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            app:filterVisibility="true"
-            app:hint="@string/search_a_model"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_title" />
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_margin_padding"
+            tools:context=".ui.home.HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/brands_recycler_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:clipToPadding="false"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_view"
-            app:listData="@{viewModel.vehicleBrands}"
-            tools:listitem="@layout/brand_item" />
+            <TextView
+                android:id="@+id/home_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/home_title"
+                android:textSize="24sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
-            android:clipToPadding="false"
-            android:orientation="vertical"
-            android:padding="4dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/brands_recycler_view"
-            app:spanCount="2"
-            tools:listitem="@layout/vehicle_item" />
+            <com.cajusoftware.fipe.ui.components.SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/default_margin_top"
+                app:filterVisibility="true"
+                app:hint="@string/search_a_model"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/home_title" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/brands_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_view"
+                app:listData="@{viewModel.vehicleBrands}"
+                tools:listitem="@layout/brand_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/brand_models_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_margin_top"
+                android:clipToPadding="false"
+                android:fillViewport="false"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brands_recycler_view"
+                app:listData="@{viewModel.brandModels}"
+                tools:listitem="@layout/brand_model_item" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">Fipe</string>
-    <string name="vehicle_brand_number">O número de marcas retornadas foi de %d</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!--  Accessibility  -->
     <string name="menu_accessibility">Botão para abrir menu</string>
-    <string name="home_title">Vamos encontrar um modelo \npara você</string>
+    <string name="brand_name_description">Este é a logo da marca %s</string>
+
+    <!--  Others  -->
+    <string name="app_name">Fipe</string>
+    <string name="vehicle_brand_number">O número de marcas retornadas foi de %d</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_title">Vamos encontrar um modelo para você</string>
     <string name="search_a_model">Busque por um modelo</string>
+    <string name="model">Modelo</string>
 </resources>

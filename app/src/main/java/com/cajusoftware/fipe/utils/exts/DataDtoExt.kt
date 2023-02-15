@@ -80,9 +80,7 @@ fun List<BrandDto>.asBrand(): List<Brand> =
 fun BrandDto.asBrand(): Brand = Brand(brandCode, name)
 
 fun List<BrandModelDto>.asBrandModel(): List<BrandModel> =
-    map {
-        it.asBrandModel()
-    }
+    map { it.asBrandModel() }
 
 fun BrandModelDto.asBrandModel(): BrandModel =
-    BrandModel(code, name)
+    BrandModel(code, name, brandNumber)

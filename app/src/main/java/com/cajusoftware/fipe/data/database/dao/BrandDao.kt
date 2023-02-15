@@ -18,4 +18,10 @@ interface BrandDao {
 
     @Query("SELECT * from brand_model")
     fun getBrandModels(): Flow<List<BrandModelDto>>
+
+    @Query("SELECT * from brand_model WHERE brand = :brandCode")
+    fun getBrandModels(brandCode: String): Flow<List<BrandModelDto>>
+
+    @Query("SELECT name from vehicle_brand WHERE code = :brandCode")
+    fun getBrandNameByBrandCode(brandCode: String): Flow<String>
 }

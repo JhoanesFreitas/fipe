@@ -19,7 +19,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.Fipe.AppBarOverlay">
+            android:theme="@style/Theme.Fipe.AppBarOverlay"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -56,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
+            android:paddingTop="@dimen/default_margin_padding"
             app:navGraph="@navigation/nav_graph" />
 
     </LinearLayout>

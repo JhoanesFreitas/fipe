@@ -9,5 +9,7 @@ data class BrandModelDto(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "code")
     val code: String,
-    val name: String
+    val name: String,
+    @ColumnInfo(name = "brand")
+    val brandNumber: String
 )

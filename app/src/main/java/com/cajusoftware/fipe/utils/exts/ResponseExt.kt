@@ -32,28 +32,22 @@ fun VehicleResponseDto.getFormattedPrice(): String =
     NumberFormat.getCurrencyInstance().format(vehiclePrice)
 
 fun List<BrandResponseDto>.asVehicleBrandDto(): List<BrandDto> =
-    map {
-        it.asVehicleBrandDto()
-    }
+    map { it.asVehicleBrandDto() }
 
 fun BrandResponseDto.asVehicleBrandDto(): BrandDto =
     BrandDto(code, name)
 
-fun List<BrandModelResponseDto>.asBrandModelDto(): List<BrandModelDto> =
-    map {
-        it.asBrandModelDto()
-    }
+fun List<BrandModelResponseDto>.asBrandModelDto(brandNumber: String): List<BrandModelDto> =
+    map { it.asBrandModelDto(brandNumber) }
 
-fun BrandModelResponseDto.asBrandModelDto(): BrandModelDto =
-    BrandModelDto(code, name)
+fun BrandModelResponseDto.asBrandModelDto(brandNumber: String): BrandModelDto =
+    BrandModelDto(code, name, brandNumber)
 
 fun List<ModelYearResponseDto>.asModelYearDto(
     brandNumber: String,
     modelNumber: String
 ): List<ModelYearDto> =
-    map {
-        it.asModelYearDto(brandNumber, modelNumber)
-    }
+    map { it.asModelYearDto(brandNumber, modelNumber) }
 
 fun ModelYearResponseDto.asModelYearDto(brandNumber: String, modelNumber: String): ModelYearDto =
     ModelYearDto(code, name, brandNumber, modelNumber)

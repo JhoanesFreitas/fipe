@@ -3,11 +3,12 @@ package com.cajusoftware.fipe.utils.adapters
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.request.CachePolicy
 import com.cajusoftware.fipe.R
-import com.cajusoftware.fipe.data.domain.Brand
-import com.cajusoftware.fipe.ui.brands.BrandAdapter
+import com.cajusoftware.fipe.R.string.brand_name_description
 import com.cajusoftware.fipe.utils.exts.gone
 import com.cajusoftware.fipe.utils.exts.toImageUri
 import com.cajusoftware.fipe.utils.exts.visible
@@ -21,11 +22,11 @@ fun setImageViewVisibility(image: ImageView, isHomeFragment: Boolean) {
 @BindingAdapter("listData")
 fun bindRecyclerView(
     recyclerView: RecyclerView,
-    data: List<Brand>?
+    data: List<Nothing>?
 ) {
-    val adapter = recyclerView.adapter as BrandAdapter
-    adapter.submitList(data)
+    (recyclerView.adapter as ListAdapter<*, *>).submitList(data)
 }
+
 
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imageName: String?) {
@@ -33,8 +34,16 @@ fun bindImage(imageView: ImageView, imageName: String?) {
         imageView.load(it.toImageUri()) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.ic_broken_image)
+            memoryCachePolicy(CachePolicy.ENABLED)
+            diskCachePolicy(CachePolicy.ENABLED)
             listener(
-                onSuccess = { _, _ -> imageView.visible() },
+                onSuccess = { _, _ ->
+                    imageView.apply {
+                        visible()
+                        contentDescription =
+                            imageView.context.getString(brand_name_description, imageName)
+                    }
+                },
                 onError = { _, _ -> imageView.bindImages(imageName.split("-").last(), imageName) })
         }
     }
@@ -45,8 +54,19 @@ fun ImageView.bindImages(imageName: String?, fullImageName: String?) {
         this.load(it.toImageUri()) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.ic_broken_image)
+            memoryCachePolicy(CachePolicy.ENABLED)
+            diskCachePolicy(CachePolicy.ENABLED)
             listener(
-                onSuccess = { _, _ -> this@bindImages.visible() },
+                onSuccess = { _, _ ->
+                    this@bindImages.apply {
+                        visible()
+                        contentDescription =
+                            context.getString(
+                                brand_name_description,
+                                imageName
+                            )
+                    }
+                },
                 onError = { _, _ ->
                     run {
                         val splitImageName = fullImageName?.split("-")

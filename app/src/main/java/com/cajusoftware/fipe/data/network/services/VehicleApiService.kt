@@ -1,9 +1,6 @@
 package com.cajusoftware.fipe.data.network.services
 
-import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
-import com.cajusoftware.fipe.data.network.model.BrandResponseDto
-import com.cajusoftware.fipe.data.network.model.ModelYearResponseDto
-import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
+import com.cajusoftware.fipe.data.network.model.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -13,7 +10,7 @@ interface VehicleApiService {
     suspend fun getBrands(): List<BrandResponseDto>
 
     @GET("carros/marcas/{brandNumber}/modelos")
-    suspend fun getBrandModels(@Path("brandNumber") brandNumber: String): List<BrandModelResponseDto>
+    suspend fun getBrandModels(@Path("brandNumber") brandNumber: String): BrandModelListDto
 
     @GET("carros/marcas/{brandNumber}/modelos/{modelNumber}/anos/{modelYear}")
     suspend fun getCar(

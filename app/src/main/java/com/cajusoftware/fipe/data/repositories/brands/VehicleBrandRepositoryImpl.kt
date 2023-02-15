@@ -34,7 +34,11 @@ class VehicleBrandRepositoryImpl(
     override suspend fun getAllBrandModels(brandNumber: String) {
         withContext(Dispatchers.IO) {
             val brands = vehicleApiService.getBrandModels(brandNumber)
-            brandDao.insertAllBrandModels(brands.asBrandModelDto())
+            brandDao.insertAllBrandModels(brands.models.asBrandModelDto(brandNumber))
         }
+    }
+
+    override fun getBrandName(brandNumber: String): Flow<String> {
+        return brandDao.getBrandNameByBrandCode(brandNumber)
     }
 }

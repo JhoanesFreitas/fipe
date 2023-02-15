@@ -9,4 +9,6 @@ interface VehicleBranchRepository {
     val brandModels: Flow<List<BrandModel>>
     suspend fun getAllVehicleBrands()
     suspend fun getAllBrandModels(brandNumber: String)
+
+    fun getBrandName(brandNumber: String): Flow<String>
 }
