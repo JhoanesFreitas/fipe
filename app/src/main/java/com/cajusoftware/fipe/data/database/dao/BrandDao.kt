@@ -16,6 +16,9 @@ interface BrandDao {
     @Query("SELECT * from vehicle_brand")
     fun getVehiclesBrands(): Flow<List<BrandDto>>
 
+    @Query("SELECT * from vehicle_brand LIMIT 1")
+    fun getFirstBrandOnDatabase(): Flow<BrandDto?>
+
     @Query("SELECT * from brand_model")
     fun getBrandModels(): Flow<List<BrandModelDto>>
 

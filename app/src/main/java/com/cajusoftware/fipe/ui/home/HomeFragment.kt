@@ -35,9 +35,24 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        binding.lifecycleOwner = this
-        binding.brandsRecyclerView.adapter = BrandAdapter()
-        binding.brandModelsRecyclerView.adapter = ModelAdapter(vehicleBrandViewModel, this)
+        vehicleBrandViewModel.firstBrand.observe(viewLifecycleOwner) { firstBrand ->
+            binding.brandModelsRecyclerView.adapter?.let {
+                if (it.itemCount == 0) {
+                    firstBrand?.let { brand ->
+                        brand.code.let { code -> vehicleBrandViewModel.fetchBrandsModels(code) }
+                        binding.brandNumber = brand.code
+                    }
+                }
+            }
+        }
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.brandsRecyclerView.adapter = BrandAdapter {
+            vehicleBrandViewModel.fetchBrandsModels(it)
+            binding.brandNumber = it
+        }
+        binding.brandModelsRecyclerView.adapter =
+            ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner)
         binding.viewModel = vehicleBrandViewModel
 
         return binding.root
@@ -51,5 +66,10 @@ class HomeFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         navController.removeOnDestinationChangedListener(navControllerDestinationChangeListener)
+    }
+
+    override fun onDestroyView() {
+        binding.unbind()
+        super.onDestroyView()
     }
 }

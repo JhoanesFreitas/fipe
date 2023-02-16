@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel" />
+
+        <variable
+            name="brandNumber"
+            type="String" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -71,7 +75,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brands_recycler_view"
-                app:listData="@{viewModel.brandModels}"
+                app:listData="@{viewModel.getBrandsModels(brandNumber)}"
                 tools:listitem="@layout/brand_model_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

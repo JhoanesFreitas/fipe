@@ -12,27 +12,32 @@ import com.cajusoftware.fipe.utils.exts.gone
 import com.cajusoftware.fipe.utils.exts.toUrlComplement
 import com.cajusoftware.fipe.utils.exts.visible
 
-class BrandAdapter : ListAdapter<Brand, BrandAdapter.BrandViewHolder>(DiffCallback) {
+class BrandAdapter(private val clickCallback: (brandNumber: String) -> Unit) :
+    ListAdapter<Brand, BrandAdapter.BrandViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandViewHolder {
         return BrandViewHolder(BrandItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
-        holder.bind(getItem(position).name)
+        holder.bind(getItem(position))
     }
 
-    class BrandViewHolder(private val binding: BrandItemBinding) :
+    inner class BrandViewHolder(private val binding: BrandItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(brandName: String) {
-            binding.brandName.text = brandName
-            binding.imgName = brandName.toUrlComplement()
+        fun bind(brand: Brand) {
+            binding.brandName.text = brand.name
+            binding.imgName = brand.name.toUrlComplement()
 
             binding.brandLogo.apply {
                 viewTreeObserver.addOnGlobalLayoutListener {
                     if (visibility == GONE) binding.brandName.visible()
                     else binding.brandName.gone()
                 }
+            }
+
+            binding.container.setOnClickListener {
+                clickCallback(brand.code)
             }
         }
     }

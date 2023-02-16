@@ -24,6 +24,9 @@ class VehicleBrandRepositoryImpl(
     override val brandModels: Flow<List<BrandModel>> =
         brandDao.getBrandModels().map { it.asBrandModel() }
 
+    override val firstVehicleBrands: Flow<Brand?>
+        get() = brandDao.getFirstBrandOnDatabase().map { it?.asBrand() }
+
     override suspend fun getAllVehicleBrands() {
         withContext(Dispatchers.IO) {
             val brands = vehicleApiService.getBrands()
@@ -31,7 +34,7 @@ class VehicleBrandRepositoryImpl(
         }
     }
 
-    override suspend fun getAllBrandModels(brandNumber: String) {
+    override suspend fun fetchBrandsModels(brandNumber: String) {
         withContext(Dispatchers.IO) {
             val brands = vehicleApiService.getBrandModels(brandNumber)
             brandDao.insertAllBrandModels(brands.models.asBrandModelDto(brandNumber))
@@ -41,4 +44,8 @@ class VehicleBrandRepositoryImpl(
     override fun getBrandName(brandNumber: String): Flow<String> {
         return brandDao.getBrandNameByBrandCode(brandNumber)
     }
+
+    override fun getBrandsModels(brandNumber: String): Flow<List<BrandModel>> =
+        brandDao.getBrandModels(brandNumber).map { it.asBrandModel() }
+
 }

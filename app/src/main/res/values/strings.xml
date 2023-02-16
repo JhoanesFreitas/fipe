@@ -10,4 +10,6 @@
     <string name="home_title">Vamos encontrar um modelo para você</string>
     <string name="search_a_model">Busque por um modelo</string>
     <string name="model">Modelo</string>
+    <string name="no_connection_title">Sem conexão!</string>
+    <string name="back_online">Conectado novamente!</string>
 </resources>

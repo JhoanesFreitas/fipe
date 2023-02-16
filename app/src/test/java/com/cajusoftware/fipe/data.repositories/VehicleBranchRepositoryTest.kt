@@ -32,7 +32,7 @@ class VehicleBranchRepositoryTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun vehicleRepository_getAllBrandModels_verifyBrandModelsList() = runTest {
-        repository.getAllBrandModels(FakeDataSource.brandsList.first().code)
+        repository.fetchBrandsModels(FakeDataSource.brandsList.first().code)
         repository.brandModels.collect {
             TestCase.assertEquals(FakeDataSource.brandModelsList, it)
         }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.cajusoftware.fipe.BuildConfig
 import com.cajusoftware.fipe.BuildConfig.BASE_URL
 import com.cajusoftware.fipe.data.database.FipeDatabase
+import com.cajusoftware.fipe.data.network.interceptors.ConnectivityInterceptor
 import com.cajusoftware.fipe.data.network.services.VehicleApiService
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBrandRepositoryImpl
@@ -28,8 +29,8 @@ class AppContainer(private val context: Context) : Container {
         .build()
 
     private val okHttpClient = OkHttpClient.Builder().apply {
-        if (BuildConfig.DEBUG)
-            addInterceptor(OkHttpProfilerInterceptor())
+        if (BuildConfig.DEBUG) addInterceptor(OkHttpProfilerInterceptor())
+        addInterceptor(ConnectivityInterceptor(context))
     }.build()
 
     private val retrofit = Retrofit.Builder()

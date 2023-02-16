@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface VehicleBranchRepository {
     val vehicleBrands: Flow<List<Brand>>
+    val firstVehicleBrands: Flow<Brand?>
     val brandModels: Flow<List<BrandModel>>
     suspend fun getAllVehicleBrands()
-    suspend fun getAllBrandModels(brandNumber: String)
-
+    suspend fun fetchBrandsModels(brandNumber: String)
     fun getBrandName(brandNumber: String): Flow<String>
+    fun getBrandsModels(brandNumber: String): Flow<List<BrandModel>>
 }

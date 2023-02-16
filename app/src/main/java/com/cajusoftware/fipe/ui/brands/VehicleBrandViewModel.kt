@@ -7,26 +7,39 @@ import androidx.lifecycle.viewModelScope
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandModel
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
+import com.cajusoftware.fipe.utils.NetworkUtils.exceptionHandler
 import kotlinx.coroutines.launch
 
 class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : ViewModel() {
 
+    private var brandNumber: String = ""
+
     val vehicleBrands: LiveData<List<Brand>> = repository.vehicleBrands.asLiveData()
 
-    var currentBrandSelected: String = "23"
+    val brandModels: LiveData<List<BrandModel>> =
+        repository.getBrandsModels(brandNumber).asLiveData()
 
-    val brandModels: LiveData<List<BrandModel>> = repository.brandModels.asLiveData()
+    val firstBrand: LiveData<Brand?> = repository.firstVehicleBrands.asLiveData()
 
     init {
-        getAll()
+        getAllBrands()
     }
 
-    fun getAll() {
-        viewModelScope.launch {
+    private fun getAllBrands() {
+        viewModelScope.launch(exceptionHandler) {
             repository.getAllVehicleBrands()
-            repository.getAllBrandModels(currentBrandSelected)
         }
     }
+
+    fun fetchBrandsModels(brandNumber: String) {
+        this.brandNumber = brandNumber
+        viewModelScope.launch(exceptionHandler) {
+            repository.fetchBrandsModels(brandNumber)
+        }
+    }
+
+    fun getBrandsModels(brandNumber: String?) =
+        brandNumber?.let { repository.getBrandsModels(it).asLiveData() }
 
     fun getBrandName(brandNumber: String): LiveData<String> {
         return repository.getBrandName(brandNumber).asLiveData()
