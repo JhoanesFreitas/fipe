@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -18,11 +19,23 @@ import com.cajusoftware.fipe.data.network.ConnectivityStatus.OFFLINE
 import com.cajusoftware.fipe.utils.exts.gone
 import com.cajusoftware.fipe.utils.exts.toImageUri
 import com.cajusoftware.fipe.utils.exts.visible
+import com.facebook.shimmer.ShimmerFrameLayout
 
 @BindingAdapter("app:visibility")
-fun setImageViewVisibility(image: ImageView, isHomeFragment: Boolean) {
-    if (isHomeFragment) image.visible()
-    else image.gone()
+fun setViewVisibility(view: View, isVisible: Boolean) {
+    if (isVisible) view.visible()
+    else view.gone()
+}
+
+@BindingAdapter("app:visibility")
+fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
+    if (isVisible) {
+        view.startShimmer()
+        view.visible()
+    } else {
+        view.stopShimmer()
+        view.gone()
+    }
 }
 
 @BindingAdapter("listData")

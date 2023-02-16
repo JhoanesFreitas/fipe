@@ -33,8 +33,8 @@ class VehicleBranchRepositoryTest {
     @Test
     fun vehicleRepository_getAllBrandModels_verifyBrandModelsList() = runTest {
         repository.fetchBrandsModels(FakeDataSource.brandsList.first().code)
-        repository.brandModels.collect {
-            TestCase.assertEquals(FakeDataSource.brandModelsList, it)
+        repository.brandsModels.collect {
+            TestCase.assertEquals(FakeDataSource.brandsModelsLists, it)
         }
     }
 }

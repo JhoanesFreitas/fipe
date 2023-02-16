@@ -47,9 +47,9 @@ class HomeFragment : Fragment() {
         }
 
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.brandsRecyclerView.adapter = BrandAdapter {
-            vehicleBrandViewModel.fetchBrandsModels(it)
+        binding.brandsRecyclerView.adapter = BrandAdapter(viewModel = vehicleBrandViewModel) {
             binding.brandNumber = it
+            vehicleBrandViewModel.fetchBrandsModels(it)
         }
         binding.brandModelsRecyclerView.adapter =
             ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner)

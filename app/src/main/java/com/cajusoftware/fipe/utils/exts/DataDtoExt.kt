@@ -5,7 +5,7 @@ import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
 import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
 import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 import com.cajusoftware.fipe.data.domain.Brand
-import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.domain.ModelYear
 import com.cajusoftware.fipe.data.domain.Vehicle
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
@@ -79,8 +79,8 @@ fun List<BrandDto>.asBrand(): List<Brand> =
 
 fun BrandDto.asBrand(): Brand = Brand(brandCode, name)
 
-fun List<BrandModelDto>.asBrandModel(): List<BrandModel> =
+fun List<BrandModelDto>.asBrandModel(): List<BrandsModel> =
     map { it.asBrandModel() }
 
-fun BrandModelDto.asBrandModel(): BrandModel =
-    BrandModel(code, name, brandNumber)
+fun BrandModelDto.asBrandModel(): BrandsModel =
+    BrandsModel(code, name, brandNumber)

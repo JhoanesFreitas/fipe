@@ -54,7 +54,7 @@ class BrandDaoTest {
         addAllBrandModelsOnDatabase()
         val allModels = brandDao.getBrandModels().first()
         TestCase.assertEquals(
-            FakeDataSource.brandModelsList.first().asBrandModelDto(),
+            FakeDataSource.brandsModelsLists.first().asBrandModelDto(),
             allModels.first()
         )
     }
@@ -65,11 +65,11 @@ class BrandDaoTest {
         addAllBrandModelsOnDatabase()
         val allModels = brandDao.getBrandModels().first()
         TestCase.assertEquals(
-            FakeDataSource.brandModelsList.first().asBrandModelDto(),
+            FakeDataSource.brandsModelsLists.first().asBrandModelDto(),
             allModels.first()
         )
         TestCase.assertEquals(
-            FakeDataSource.brandModelsList.last().asBrandModelDto(),
+            FakeDataSource.brandsModelsLists.last().asBrandModelDto(),
             allModels.last()
         )
     }
@@ -88,7 +88,7 @@ class BrandDaoTest {
     }
 
     private suspend fun addAllBrandModelsOnDatabase() {
-        brandDao.insertAllBrandModels(FakeDataSource.brandModelsList.asBrandModelDto())
+        brandDao.insertAllBrandModels(FakeDataSource.brandsModelsLists.asBrandModelDto())
     }
 
     @After

@@ -2,7 +2,7 @@ package com.cajusoftware.fipe.data.repositories.brands
 
 import com.cajusoftware.fipe.data.database.dao.BrandDao
 import com.cajusoftware.fipe.data.domain.Brand
-import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.network.services.VehicleApiService
 import com.cajusoftware.fipe.utils.exts.asBrand
 import com.cajusoftware.fipe.utils.exts.asBrandModel
@@ -21,7 +21,7 @@ class VehicleBrandRepositoryImpl(
     override val vehicleBrands: Flow<List<Brand>> =
         brandDao.getVehiclesBrands().map { it.asBrand() }
 
-    override val brandModels: Flow<List<BrandModel>> =
+    override val brandsModels: Flow<List<BrandsModel>> =
         brandDao.getBrandModels().map { it.asBrandModel() }
 
     override val firstVehicleBrands: Flow<Brand?>
@@ -45,7 +45,7 @@ class VehicleBrandRepositoryImpl(
         return brandDao.getBrandNameByBrandCode(brandNumber)
     }
 
-    override fun getBrandsModels(brandNumber: String): Flow<List<BrandModel>> =
+    override fun getBrandsModels(brandNumber: String): Flow<List<BrandsModel>> =
         brandDao.getBrandModels(brandNumber).map { it.asBrandModel() }
 
 }

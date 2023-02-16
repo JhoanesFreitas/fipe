@@ -12,7 +12,10 @@ import com.cajusoftware.fipe.utils.exts.gone
 import com.cajusoftware.fipe.utils.exts.toUrlComplement
 import com.cajusoftware.fipe.utils.exts.visible
 
-class BrandAdapter(private val clickCallback: (brandNumber: String) -> Unit) :
+class BrandAdapter(
+    private val viewModel: VehicleBrandViewModel,
+    private val clickCallback: (brandNumber: String) -> Unit
+) :
     ListAdapter<Brand, BrandAdapter.BrandViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandViewHolder {
@@ -21,6 +24,11 @@ class BrandAdapter(private val clickCallback: (brandNumber: String) -> Unit) :
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    override fun submitList(list: MutableList<Brand>?) {
+        super.submitList(list)
+        viewModel.setBrandLoading(list.isNullOrEmpty())
     }
 
     inner class BrandViewHolder(private val binding: BrandItemBinding) :

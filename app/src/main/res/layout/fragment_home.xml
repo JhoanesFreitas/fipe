@@ -31,8 +31,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/home_title"
-                android:textSize="24sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,6 +77,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/brands_recycler_view"
                 app:listData="@{viewModel.getBrandsModels(brandNumber)}"
                 tools:listitem="@layout/brand_model_item" />
+
+            <include
+                layout="@layout/shimmer_brands"
+                app:viewModel="@{viewModel}" />
+
+            <include
+                layout="@layout/shimmer_brands_model"
+                app:viewModel="@{viewModel}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

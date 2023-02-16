@@ -1,7 +1,7 @@
 package com.cajusoftware.test.fipe.fakes
 
 import com.cajusoftware.fipe.data.domain.Brand
-import com.cajusoftware.fipe.data.domain.BrandModel
+import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.domain.ModelYear
 import com.cajusoftware.fipe.data.domain.Vehicle
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
@@ -100,12 +100,12 @@ object FakeDataSource {
         )
     )
 
-    val brandModelsList = listOf(
-        BrandModel(
+    val brandsModelsLists = listOf(
+        BrandsModel(
             modelCodeOne,
             modelNameOne
         ),
-        BrandModel(
+        BrandsModel(
             modelCodeTwo,
             modelNameTwo
         )
