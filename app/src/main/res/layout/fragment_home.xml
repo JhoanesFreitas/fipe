@@ -48,43 +48,59 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/home_title" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/brands_recycler_view"
+            <RelativeLayout
+                android:id="@+id/brands_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin_top"
-                android:clipToPadding="false"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search_view"
-                app:listData="@{viewModel.vehicleBrands}"
-                tools:listitem="@layout/brand_item" />
+                app:layout_constraintTop_toBottomOf="@+id/search_view">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/brand_models_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/brands_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:listData="@{viewModel.vehicleBrands}"
+                    tools:listitem="@layout/brand_item" />
+
+                <include
+                    layout="@layout/shimmer_brands"
+                    app:viewModel="@{viewModel}" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/models_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin_top"
-                android:clipToPadding="false"
-                android:fillViewport="false"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brands_recycler_view"
-                app:listData="@{viewModel.getBrandsModels(brandNumber)}"
-                tools:listitem="@layout/brand_model_item" />
+                app:layout_constraintTop_toBottomOf="@+id/brands_layout">
 
-            <include
-                layout="@layout/shimmer_brands"
-                app:viewModel="@{viewModel}" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/brand_models_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:fillViewport="false"
+                    android:orientation="vertical"
+                    android:layout_alignParentTop="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:listData="@{viewModel.getBrandsModels(brandNumber)}"
+                    tools:listitem="@layout/brand_model_item" />
 
-            <include
-                layout="@layout/shimmer_brands_model"
-                app:viewModel="@{viewModel}" />
+                <include
+                    layout="@layout/shimmer_brands_model"
+                    app:viewModel="@{viewModel}" />
+
+            </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

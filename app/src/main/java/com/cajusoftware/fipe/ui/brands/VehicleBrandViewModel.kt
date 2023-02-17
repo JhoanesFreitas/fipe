@@ -5,6 +5,7 @@ import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
 import com.cajusoftware.fipe.utils.NetworkUtils.exceptionHandler
+import com.cajusoftware.fipe.utils.RetryCallback
 import kotlinx.coroutines.launch
 
 class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : ViewModel() {
@@ -31,14 +32,14 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
     }
 
     private fun getAllBrands() {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch(exceptionHandler + RetryCallback { getAllBrands() }) {
             repository.getAllVehicleBrands()
         }
     }
 
     fun fetchBrandsModels(brandNumber: String) {
         this.brandNumber = brandNumber
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch(exceptionHandler + RetryCallback { fetchBrandsModels(brandNumber) }) {
             repository.fetchBrandsModels(brandNumber)
         }
     }
