@@ -52,7 +52,14 @@ class HomeFragment : Fragment() {
             vehicleBrandViewModel.fetchBrandsModels(it)
         }
         binding.brandModelsRecyclerView.adapter =
-            ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner)
+            ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner) { brandNumber, modelNumber ->
+                navController.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToVehicleFragment(
+                        brandNumber,
+                        modelNumber
+                    )
+                )
+            }
         binding.viewModel = vehicleBrandViewModel
 
         return binding.root

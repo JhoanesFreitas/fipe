@@ -13,7 +13,8 @@ import com.cajusoftware.fipe.utils.exts.toUrlComplement
 
 class ModelAdapter(
     private val viewModel: VehicleBrandViewModel,
-    private val lifecycleOwner: LifecycleOwner
+    private val lifecycleOwner: LifecycleOwner,
+    private val onClickListener: ((String, String) -> Unit)
 ) : ListAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
@@ -41,6 +42,13 @@ class ModelAdapter(
             binding.subtitle.text = model.name
             viewModel.getBrandName(model.brandNumber).observe(lifecycleOwner) {
                 binding.imgName = it.toUrlComplement()
+            }
+
+            binding.modelsLayout.setOnClickListener {
+                onClickListener(
+                    model.brandNumber,
+                    model.code
+                )
             }
         }
     }

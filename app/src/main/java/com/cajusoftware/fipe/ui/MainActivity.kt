@@ -33,9 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.toolbar.setupWithNavController(navController)
         binding.filterButton.setOnClickListener {
-            navController.navigate(
-                HomeFragmentDirections.actionHomeFragmentToVehicleFragment()
-            )
+//            navController.navigate(
+//                HomeFragmentDirections.actionHomeFragmentToVehicleFragment()
+//            )
         }
 
     }
