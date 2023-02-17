@@ -8,11 +8,14 @@ interface VehicleRepository {
 
     val vehicles: Flow<List<Vehicle>>
 
-    suspend fun getVehicle(brandNumber: String, modelNumber: String, modelYear: String)
+    suspend fun fetchVehicle(brandNumber: String, modelNumber: String, modelYear: String)
+    fun getVehicle(brandNumber: String, modelNumber: String, modelYear: String): Flow<Vehicle?>
 
     fun getVehicleByFipeCode(fipeCode: String): Flow<Vehicle>
 
-    fun getModelYears(brandNumber: String, modelNumber: String): Flow<List<ModelYear>>
+    fun getVehicleYears(brandNumber: String, modelNumber: String): Flow<List<ModelYear>>
 
-    suspend fun getAllModelYears(brandNumber: String, modelNumber: String)
+    suspend fun fetchModelYears(brandNumber: String, modelNumber: String)
+
+    suspend fun fetchAllModelYears(brandNumber: String, modelNumber: String)
 }

@@ -1,18 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.cajusoftware.fipe.ui.vehicles.VehicleViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.vehicles.VehicleFragment">
+        android:layout_height="match_parent">
 
-        <!-- TODO: Update blank fragment layout -->
+        <ImageView
+            android:id="@+id/brand_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="52dp"
+            app:imageUrl="@{viewModel.vehicle.toUrlComplement()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_car" />
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/brand_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:text="@{viewModel.vehicle.vehicleBrand}"
+            app:layout_constraintEnd_toEndOf="@+id/brand_image"
+            app:layout_constraintStart_toStartOf="@+id/brand_image"
+            app:layout_constraintTop_toBottomOf="@+id/brand_image"
+            tools:text="Chevrolet" />
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/model_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="124dp"
+            android:text="@{viewModel.vehicle.brandModel}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/brand_name"
+            tools:text="Tracker" />
 
+        <com.cajusoftware.fipe.ui.components.DescriptionView
+            android:id="@+id/price_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:key="Preço"
+            app:layout_constraintEnd_toStartOf="@+id/year_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/year_description"
+            app:value="@{viewModel.vehicle.vehiclePrice}"
+            tools:value="R$ 200.010,00" />
+
+        <com.cajusoftware.fipe.ui.components.DescriptionView
+            android:id="@+id/year_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_top"
+            app:key="Ano"
+            app:layout_constraintEnd_toStartOf="@+id/fuel_description"
+            app:layout_constraintStart_toEndOf="@+id/price_description"
+            app:layout_constraintTop_toBottomOf="@+id/model_name"
+            app:value="@{viewModel.vehicle.yearToString}"
+            tools:value="2023" />
+
+        <com.cajusoftware.fipe.ui.components.DescriptionView
+            android:id="@+id/fuel_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:key="Combustível"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/year_description"
+            app:layout_constraintTop_toTopOf="@id/year_description"
+            app:value="@{viewModel.vehicle.modelFuel}"
+            tools:value="Gasolina" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

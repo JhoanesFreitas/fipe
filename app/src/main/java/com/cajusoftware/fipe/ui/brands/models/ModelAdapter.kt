@@ -14,7 +14,7 @@ import com.cajusoftware.fipe.utils.exts.toUrlComplement
 class ModelAdapter(
     private val viewModel: VehicleBrandViewModel,
     private val lifecycleOwner: LifecycleOwner,
-    private val onClickListener: ((String, String) -> Unit)
+    private val onClickListener: ((BrandsModel) -> Unit)
 ) : ListAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
@@ -39,16 +39,15 @@ class ModelAdapter(
     inner class BrandModelViewHolder(private val binding: BrandModelItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: BrandsModel) {
+            var brandName = ""
             binding.subtitle.text = model.name
             viewModel.getBrandName(model.brandNumber).observe(lifecycleOwner) {
                 binding.imgName = it.toUrlComplement()
+                brandName = it
             }
 
             binding.modelsLayout.setOnClickListener {
-                onClickListener(
-                    model.brandNumber,
-                    model.code
-                )
+                onClickListener(model.copy(brandName = brandName))
             }
         }
     }

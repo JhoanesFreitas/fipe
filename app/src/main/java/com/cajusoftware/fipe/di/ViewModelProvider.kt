@@ -6,10 +6,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cajusoftware.fipe.FipeApplication
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
+import com.cajusoftware.fipe.ui.vehicles.VehicleViewModel
 
 object ViewModelProvider {
     val Factory = viewModelFactory {
         initializer { VehicleBrandViewModel(fipeApplication().appContainer.vehicleBrandRepository) }
+        initializer { VehicleViewModel(fipeApplication().appContainer.vehicleRepository) }
     }
 }
 

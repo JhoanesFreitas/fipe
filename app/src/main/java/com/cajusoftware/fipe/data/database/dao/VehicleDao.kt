@@ -20,7 +20,10 @@ interface VehicleDao {
     suspend fun delete(vehicleData: VehicleDto)
 
     @Query("SELECT * from vehicle WHERE fipe_code = :fipeCode")
-    fun getVehicle(fipeCode: String): Flow<VehicleDto>
+    fun getVehicleByFipeCode(fipeCode: String): Flow<VehicleDto>
+
+    @Query("SELECT * from vehicle WHERE brand = :brandNumber AND model = :modelNumber AND year = :modelYear")
+    fun getVehicle(brandNumber: String, modelNumber: String, modelYear: String): Flow<VehicleDto>
 
     @Query("SELECT * from vehicle ORDER BY brand ASC")
     fun getVehicles(): Flow<List<VehicleDto>>
