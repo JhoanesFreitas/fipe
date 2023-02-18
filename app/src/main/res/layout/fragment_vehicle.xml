@@ -42,6 +42,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/brand_image"
                 tools:text="Chevrolet" />
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_animation_view"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brand_name"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie_car.json"
+                app:lottie_loop="true" />
+
             <TextView
                 android:id="@+id/model_name"
                 android:layout_width="wrap_content"

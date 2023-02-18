@@ -25,6 +25,7 @@ buildscript {
         coil_version = '1.1.1'
         shimmer_version = '0.3.0@aar'
         chart_version = 'v3.0.3'
+        lottie_version = '6.0.0'
 
         //data
         room_version = '2.5.0'

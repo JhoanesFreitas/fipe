@@ -87,6 +87,9 @@ dependencies {
     //Chart
     implementation "com.github.PhilJay:MPAndroidChart:$chart_version"
 
+    //Lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
     //tests
     testImplementation "junit:junit:$junit_version"
     testImplementation project(path: ':fipe-test')
