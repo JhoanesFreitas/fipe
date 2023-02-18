@@ -28,7 +28,19 @@ class FakeBrandDao : BrandDao {
         return flow { emit(vehiclesBrandsList) }
     }
 
+    override fun getFirstBrandOnDatabase(): Flow<BrandDto?> {
+        TODO("Not yet implemented")
+    }
+
     override fun getBrandModels(): Flow<List<BrandModelDto>> {
         return flow { emit(brandModelsList) }
+    }
+
+    override fun getBrandModels(brandCode: String): Flow<List<BrandModelDto>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getBrandNameByBrandCode(brandCode: String): Flow<String> {
+        TODO("Not yet implemented")
     }
 }

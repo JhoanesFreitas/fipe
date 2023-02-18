@@ -1,5 +1,6 @@
 package com.cajusoftware.fipe.ui.vehicles
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,5 +49,15 @@ class VehicleFragment : Fragment() {
             args.brandName,
             args.modelName
         )
+
+        binding.chartView.apply {
+            fullscreenClickListener = {
+                activity?.requestedOrientation =
+                    if (activity?.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+                        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    else
+                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }
+        }
     }
 }

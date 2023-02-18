@@ -24,4 +24,11 @@
         <item name="android:background">@drawable/bg_search_view</item>
     </style>
 
+    <style name="Theme.Fipe.Text" />
+
+    <style name="Theme.Fipe.Text.Focusable">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

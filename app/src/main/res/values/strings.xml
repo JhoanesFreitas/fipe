@@ -12,4 +12,6 @@
     <string name="model">Modelo</string>
     <string name="no_connection_title">Sem conexão!</string>
     <string name="back_online">Conectado novamente!</string>
+    <string name="history">Histórico</string>
+    <string name="fullscreen">Abrir ou fechar gráfico em tela cheia</string>
 </resources>

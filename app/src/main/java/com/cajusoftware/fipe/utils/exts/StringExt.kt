@@ -19,3 +19,13 @@ fun String.toImageUri(): Uri =
         .buildUpon()
         .scheme("https")
         .build()
+
+fun String.toSafeFloat() =
+    try {
+        this
+            .replace(".", "")
+            .replace(",", ".")
+            .toFloat()
+    } catch (e: NumberFormatException) {
+        0F
+    }
