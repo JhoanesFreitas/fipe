@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.databinding.ActivityMainBinding
-import com.cajusoftware.fipe.ui.home.HomeFragmentDirections
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,12 +31,12 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         binding.toolbar.setupWithNavController(navController)
-        binding.filterButton.setOnClickListener {
-//            navController.navigate(
-//                HomeFragmentDirections.actionHomeFragmentToVehicleFragment()
-//            )
-        }
+        binding.filterButton.setOnClickListener {}
 
+    }
+
+    fun onNavigationClickListener(callback: () -> Unit) {
+        binding.toolbar.setNavigationOnClickListener { callback() }
     }
 
     override fun onSupportNavigateUp(): Boolean {
