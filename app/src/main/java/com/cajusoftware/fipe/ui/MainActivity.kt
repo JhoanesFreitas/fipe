@@ -9,6 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.databinding.ActivityMainBinding
+import com.cajusoftware.fipe.utils.exts.gone
+import com.cajusoftware.fipe.utils.exts.visible
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +34,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.toolbar.setupWithNavController(navController)
         binding.filterButton.setOnClickListener {}
+    }
 
+    fun hideToolbar() {
+        binding.toolbar.gone()
+        binding.invalidateAll()
+        binding.executePendingBindings()
+    }
+
+    fun showToolbar() {
+        binding.toolbar.visible()
     }
 
     fun onNavigationClickListener(callback: () -> Unit) {

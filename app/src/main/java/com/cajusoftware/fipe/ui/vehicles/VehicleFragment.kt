@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedDispatcher
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,7 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.cajusoftware.fipe.databinding.FragmentVehicleBinding
 import com.cajusoftware.fipe.di.ViewModelProvider.Factory
-import com.cajusoftware.fipe.ui.MainActivity
+import com.cajusoftware.fipe.utils.exts.hideToolbar
+import com.cajusoftware.fipe.utils.exts.onNavigationClickListener
+import com.cajusoftware.fipe.utils.exts.showToolbar
 
 class VehicleFragment : Fragment() {
 
@@ -43,6 +44,9 @@ class VehicleFragment : Fragment() {
 
         setOnBackPressedListener()
 
+        if (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            requireActivity().hideToolbar()
+
         return binding.root
     }
 
@@ -60,24 +64,24 @@ class VehicleFragment : Fragment() {
     private fun setFullscreenClickListener() {
         binding.chartView.apply {
             fullscreenClickListener = {
-                activity?.requestedOrientation =
-                    if (activity?.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+                requireActivity().requestedOrientation =
+                    if (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
                         ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else
+                    else {
                         ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    }
             }
         }
     }
 
     private fun setOnBackPressedListener() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            onBackPressed()
-        }
-        (requireActivity() as? MainActivity)?.onNavigationClickListener { onBackPressed() }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { onBackPressed() }
+        requireActivity().onNavigationClickListener { onBackPressed() }
     }
 
     private fun onBackPressed() {
-        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        requireActivity().showToolbar()
         navController.navigateUp()
     }
 }
