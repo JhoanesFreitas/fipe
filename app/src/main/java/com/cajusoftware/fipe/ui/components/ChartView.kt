@@ -6,14 +6,22 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.cajusoftware.fipe.R
-import com.cajusoftware.fipe.data.domain.YearPriceModel
+import com.cajusoftware.fipe.data.domain.Historic
 import com.cajusoftware.fipe.databinding.LayoutChartViewBinding
+import com.cajusoftware.fipe.utils.exts.toChartLabel
 import com.cajusoftware.fipe.utils.exts.toSafeFloat
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.IValueFormatter
+import com.github.mikephil.charting.formatter.LargeValueFormatter
+import java.text.NumberFormat
+import java.util.*
+
 
 class ChartView(context: Context, attributes: AttributeSet) : LinearLayout(context, attributes) {
 
@@ -25,9 +33,9 @@ class ChartView(context: Context, attributes: AttributeSet) : LinearLayout(conte
             field = value
         }
 
-    var values: List<YearPriceModel>? = null
+    var historic: Historic? = null
         set(value) {
-            values?.let { setValuesOnChart(it) }
+            value?.let { setValuesOnChart(it) }
             field = value
         }
 
@@ -41,6 +49,8 @@ class ChartView(context: Context, attributes: AttributeSet) : LinearLayout(conte
 
     private val chartData = LineData()
 
+    private val priceValues = ArrayList<Entry>()
+
     init {
         val typedArray = context.obtainStyledAttributes(attributes, R.styleable.ChartView)
         title = typedArray.getString(R.styleable.ChartView_title)
@@ -48,51 +58,59 @@ class ChartView(context: Context, attributes: AttributeSet) : LinearLayout(conte
             typedArray.getResourceId(R.styleable.ChartView_fullscreenIcon, R.drawable.ic_fullscreen)
         typedArray.recycle()
         createChart()
-        setValuesOnChart(
-            listOf(
-                YearPriceModel("2015", "120.000,00"),
-                YearPriceModel("2016", "118.000,00"),
-                YearPriceModel("2017", "117.300,00"),
-                YearPriceModel("2018", "115.230,00"),
-                YearPriceModel("2019", "115.300,00"),
-                YearPriceModel("2020", "122.000,00"),
-            )
-        )
     }
 
-    private fun setValuesOnChart(values: List<YearPriceModel>) {
+    private fun setValuesOnChart(values: Historic) {
         binding.chart.apply {
+
             chartData.clearValues()
-            val priceValues = ArrayList<Entry>()
+            priceValues.clear()
 
-            values.forEach {
-                priceValues.add(Entry(it.year.toSafeFloat(), it.price.toSafeFloat()))
+            var i = 0f
+            values.historic.forEach {
+                priceValues.add(Entry(i++, it.price.toSafeFloat()))
 
-                val chartDataSet = LineDataSet(priceValues, it.year).apply {
-                    circleRadius = 4f
-                    setDrawFilled(true)
-                    valueTextSize = 14F
-                    fillColor = Color.GREEN + Color.GREEN + Color.GREEN
-                    mode = LineDataSet.Mode.CUBIC_BEZIER
-                }
+                val chartDataSet =
+                    LineDataSet(priceValues, it.month.toChartLabel()).apply {
+                        circleRadius = 4f
+                        setCircleColor(Color.MAGENTA)
+                        setDrawFilled(true)
+                        valueTextSize = 14F
+                        fillColor = Color.GREEN + Color.GREEN + Color.GREEN
+                        mode = LineDataSet.Mode.CUBIC_BEZIER
+                        valueFormatter =
+                            IValueFormatter { value, _, _, _ ->
+                                NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR"))
+                                    .format(value)
+                            }
+                    }
                 chartData.addDataSet(chartDataSet)
             }
 
             data = chartData
+            notifyDataSetChanged()
+            invalidate()
         }
     }
 
     private fun createChart() {
         binding.chart.apply {
             setFullscreen()
-            xAxis.setDrawGridLines(false)
+            xAxis.setDrawGridLines(true)
             xAxis.position = XAxis.XAxisPosition.BOTTOM
             xAxis.granularity = 1F
+            xAxis.valueFormatter =
+                IAxisValueFormatter { value, _ ->
+                    historic?.historic?.get(value.toInt())?.month?.toChartLabel()
+                }
+
+            val left: YAxis = axisLeft
+            left.valueFormatter = LargeValueFormatter()
 
             legend.orientation = Legend.LegendOrientation.VERTICAL
             legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-            legend.textSize = 15F
+            legend.textSize = 14F
             legend.form = Legend.LegendForm.LINE
 
             axisRight.isEnabled = false

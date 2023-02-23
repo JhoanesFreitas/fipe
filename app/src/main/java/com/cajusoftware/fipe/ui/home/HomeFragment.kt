@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
                         brandModel.code,
                         brandModel.name,
                         brandModel.brandNumber,
-                        brandModel.brandName
+                        brandModel.brandName,
                     )
                 )
             }

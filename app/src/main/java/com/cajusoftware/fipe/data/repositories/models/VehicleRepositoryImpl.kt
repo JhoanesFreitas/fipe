@@ -1,15 +1,14 @@
 package com.cajusoftware.fipe.data.repositories.models
 
 import com.cajusoftware.fipe.data.database.dao.VehicleDao
+import com.cajusoftware.fipe.data.domain.Historic
 import com.cajusoftware.fipe.data.domain.ModelYear
 import com.cajusoftware.fipe.data.domain.Vehicle
 import com.cajusoftware.fipe.data.network.services.VehicleApiService
-import com.cajusoftware.fipe.utils.exts.asModelYear
-import com.cajusoftware.fipe.utils.exts.asModelYearDto
-import com.cajusoftware.fipe.utils.exts.asVehicle
-import com.cajusoftware.fipe.utils.exts.asVehicleDto
+import com.cajusoftware.fipe.utils.exts.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
@@ -21,6 +20,9 @@ class VehicleRepositoryImpl(
     override val vehicles: Flow<List<Vehicle>>
         get() = vehicleDao.getVehicles().map { it.asVehicle() }
 
+    private val _historic: MutableSharedFlow<Historic> = MutableSharedFlow()
+    override val historic: Flow<Historic>
+        get() = _historic
 
     override suspend fun fetchVehicle(brandNumber: String, modelNumber: String, modelYear: String) {
         val vehicle = vehicleApiService.getCar(brandNumber, modelNumber, modelYear)
@@ -33,7 +35,7 @@ class VehicleRepositoryImpl(
         modelYear: String
     ): Flow<Vehicle?> {
         return vehicleDao.getVehicle(brandName, modelName, modelYear)
-            .map { it?.asVehicle() }
+            .map { it.asVehicle() }
     }
 
     override suspend fun fetchAllModelYears(brandNumber: String, modelNumber: String) {
@@ -54,5 +56,16 @@ class VehicleRepositoryImpl(
 
     override fun getVehicleYears(brandNumber: String, modelNumber: String): Flow<List<ModelYear>> {
         return vehicleDao.getYears(brandNumber, modelNumber).map { it.asModelYear() }
+    }
+
+    override suspend fun fetchPricesByYears(fipeCode: String, year: String) {
+        withContext(Dispatchers.IO) {
+            val prices = vehicleApiService.getHistoric(fipeCode, year)
+            vehicleDao.insertHistoric(prices.asHistoricDto())
+        }
+
+        vehicleDao.getHistoric(fipeCode).collect {
+            _historic.emit(it.asHistoric())
+        }
     }
 }

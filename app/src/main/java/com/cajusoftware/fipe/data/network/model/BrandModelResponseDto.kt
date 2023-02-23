@@ -4,9 +4,15 @@ import com.squareup.moshi.Json
 
 data class BrandModelListDto(
     @Json(name = "modelos") val models: List<BrandModelResponseDto>,
+    @Json(name = "anos") val years: List<BrandModelYearsResponseDto>
 )
 
 data class BrandModelResponseDto(
-    @Json(name = "codigo") val code: String,
-    @Json(name = "nome") val name: String
+    val code: String,
+    val name: String
+)
+
+data class BrandModelYearsResponseDto(
+    val code: String,
+    val name: String
 )

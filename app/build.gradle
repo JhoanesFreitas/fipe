@@ -27,12 +27,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v1/\""
+            buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v2/\""
             buildConfigField "String", "THUMB_URL", "\"raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/thumb/\""
         }
 
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v1/\""
+            buildConfigField "String", "BASE_URL", "\"https://parallelum.com.br/fipe/api/v2/\""
             buildConfigField "String", "THUMB_URL", "\"raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/thumb/\""
         }
     }

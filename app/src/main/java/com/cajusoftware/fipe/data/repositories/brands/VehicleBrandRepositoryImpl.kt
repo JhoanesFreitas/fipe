@@ -37,7 +37,7 @@ class VehicleBrandRepositoryImpl(
     override suspend fun fetchBrandsModels(brandNumber: String) {
         withContext(Dispatchers.IO) {
             val brands = vehicleApiService.getBrandModels(brandNumber)
-            brandDao.insertAllBrandModels(brands.models.asBrandModelDto(brandNumber))
+            brandDao.insertAllBrandModels(brands.asBrandModelDto(brandNumber))
         }
     }
 

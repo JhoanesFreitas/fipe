@@ -55,12 +55,15 @@
 
             <TextView
                 android:id="@+id/model_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin_padding"
                 android:layout_marginTop="124dp"
+                android:layout_marginEnd="@dimen/default_margin_padding"
                 android:text="@{viewModel.vehicle.brandModel}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/brand_name"
@@ -110,6 +113,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fuel_description"
                 app:title="@string/history"
+                app:values="@{viewModel.historic}"
                 tools:title="@string/history" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,7 @@
 package com.cajusoftware.fipe.utils.exts
 
-import com.cajusoftware.fipe.data.database.dtos.BrandDto
-import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
-import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
-import com.cajusoftware.fipe.data.database.dtos.VehicleDto
-import com.cajusoftware.fipe.data.domain.Brand
-import com.cajusoftware.fipe.data.domain.BrandsModel
-import com.cajusoftware.fipe.data.domain.ModelYear
-import com.cajusoftware.fipe.data.domain.Vehicle
+import com.cajusoftware.fipe.data.database.dtos.*
+import com.cajusoftware.fipe.data.domain.*
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
 import com.cajusoftware.fipe.data.network.model.BrandResponseDto
 import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
@@ -83,4 +77,15 @@ fun List<BrandModelDto>.asBrandModel(): List<BrandsModel> =
     map { it.asBrandModel() }
 
 fun BrandModelDto.asBrandModel(): BrandsModel =
-    BrandsModel(code, name, brandNumber)
+    BrandsModel(code, name, brandNumber, fipeCode = fipeCode, year = year)
+
+fun HistoricDto.asHistoric() =
+    Historic(historic.asPrice()).apply {
+        historic = historic.reversed()
+    }
+
+fun List<PriceDto>.asPrice() =
+    map { it.asPrice() }
+
+fun PriceDto.asPrice() =
+    Price(price, month, reference)

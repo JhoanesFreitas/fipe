@@ -44,6 +44,7 @@ class VehicleFragment : Fragment() {
 
         setOnBackPressedListener()
 
+
         if (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             requireActivity().hideToolbar()
 

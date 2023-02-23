@@ -23,6 +23,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:title="@string/history"
+                app:values="@{viewModel.historic}"
                 tools:title="@string/history" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

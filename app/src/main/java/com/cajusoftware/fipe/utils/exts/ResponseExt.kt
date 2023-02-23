@@ -1,13 +1,7 @@
 package com.cajusoftware.fipe.utils.exts
 
-import com.cajusoftware.fipe.data.database.dtos.BrandDto
-import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
-import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
-import com.cajusoftware.fipe.data.database.dtos.VehicleDto
-import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
-import com.cajusoftware.fipe.data.network.model.BrandResponseDto
-import com.cajusoftware.fipe.data.network.model.ModelYearResponseDto
-import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
+import com.cajusoftware.fipe.data.database.dtos.*
+import com.cajusoftware.fipe.data.network.model.*
 import java.text.NumberFormat
 
 fun List<VehicleResponseDto>.asVehicleDto(): List<VehicleDto> =
@@ -41,7 +35,7 @@ fun List<BrandModelResponseDto>.asBrandModelDto(brandNumber: String): List<Brand
     map { it.asBrandModelDto(brandNumber) }
 
 fun BrandModelResponseDto.asBrandModelDto(brandNumber: String): BrandModelDto =
-    BrandModelDto(code, name, brandNumber)
+    BrandModelDto(code, name, brandNumber, null, null)
 
 fun List<ModelYearResponseDto>.asModelYearDto(
     brandNumber: String,
@@ -51,3 +45,18 @@ fun List<ModelYearResponseDto>.asModelYearDto(
 
 fun ModelYearResponseDto.asModelYearDto(brandNumber: String, modelNumber: String): ModelYearDto =
     ModelYearDto(code, name, brandNumber, modelNumber)
+
+fun HistoricModelResponseDto.asHistoricDto() =
+    HistoricDto(
+        fipeCode,
+        vehicleBrand,
+        brandModel,
+        modelYear,
+        modelFuel,
+        vehicleType,
+        fuelAcronym,
+        historic.map { it.asPriceDto() }
+    )
+
+fun PriceResponseDto.asPriceDto() =
+    PriceDto(price, month, reference)

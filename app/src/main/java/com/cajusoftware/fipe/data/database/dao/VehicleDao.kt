@@ -1,6 +1,7 @@
 package com.cajusoftware.fipe.data.database.dao
 
 import androidx.room.*
+import com.cajusoftware.fipe.data.database.dtos.HistoricDto
 import com.cajusoftware.fipe.data.database.dtos.ModelYearDto
 import com.cajusoftware.fipe.data.database.dtos.VehicleDto
 import kotlinx.coroutines.flow.Flow
@@ -12,6 +13,9 @@ interface VehicleDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertModelYears(modelYears: List<ModelYearDto>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertHistoric(modelYears: HistoricDto)
 
     @Update
     suspend fun update(vehicleData: VehicleDto)
@@ -30,4 +34,7 @@ interface VehicleDao {
 
     @Query("SELECT * from years WHERE brand = :brandNumber AND model = :modelNumber ORDER BY code DESC")
     fun getYears(brandNumber: String, modelNumber: String): Flow<List<ModelYearDto>>
+
+    @Query("SELECT * from historic WHERE fipe_code = :fipeCode")
+    fun getHistoric(fipeCode: String): Flow<HistoricDto>
 }

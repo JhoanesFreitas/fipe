@@ -17,4 +17,4 @@ fun List<BrandsModel>.asBrandModelDto(brandName: String): List<BrandModelDto> =
     map { it.asBrandModelDto(brandName) }
 
 fun BrandsModel.asBrandModelDto(brandName: String): BrandModelDto =
-    BrandModelDto(code, name, brandName)
+    BrandModelDto(code, name, brandName, fipeCode, year)

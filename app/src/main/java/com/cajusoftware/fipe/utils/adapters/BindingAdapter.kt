@@ -14,11 +14,11 @@ import coil.load
 import coil.request.CachePolicy
 import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.R.string.brand_name_description
+import com.cajusoftware.fipe.data.domain.Historic
 import com.cajusoftware.fipe.data.network.ConnectivityStatus
 import com.cajusoftware.fipe.data.network.ConnectivityStatus.OFFLINE
-import com.cajusoftware.fipe.utils.exts.gone
-import com.cajusoftware.fipe.utils.exts.toImageUri
-import com.cajusoftware.fipe.utils.exts.visible
+import com.cajusoftware.fipe.ui.components.ChartView
+import com.cajusoftware.fipe.utils.exts.*
 import com.facebook.shimmer.ShimmerFrameLayout
 
 @BindingAdapter("app:visibility")
@@ -121,4 +121,9 @@ fun showConnectionStatus(textView: TextView, connectStatus: ConnectivityStatus?)
             }
         }
     }
+}
+
+@BindingAdapter("values")
+fun setValues(view: ChartView, values: Historic?) {
+    view.historic = values
 }
