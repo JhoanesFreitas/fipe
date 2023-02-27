@@ -1,11 +1,13 @@
 package com.cajusoftware.fipe.ui.brands.adapters
 
-import android.view.LayoutInflater
+import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.databinding.BrandModelItemBinding
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
@@ -21,19 +23,17 @@ class ModelAdapter(
         AsyncListDiffer(this, DiffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
-        return BrandModelViewHolder(
-            BrandModelItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+        return BrandModelViewHolder(BrandModelAsyncViewHolder(parent.context).apply {
+            inflate(R.layout.brand_model_item)
+        })
     }
 
     override fun getItemCount(): Int = asyncListDiff.currentList.size
 
     override fun onBindViewHolder(holder: BrandModelViewHolder, position: Int) {
-        holder.bind(asyncListDiff.currentList[position])
+        (holder.itemView as BrandModelAsyncViewHolder).bindWhenInflated {
+            bind(asyncListDiff.currentList[position])
+        }
     }
 
     override fun submitList(list: List<BrandsModel>?) {
@@ -41,17 +41,26 @@ class ModelAdapter(
         asyncListDiff.submitList(list)
     }
 
-    inner class BrandModelViewHolder(private val binding: BrandModelItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(model: BrandsModel) {
+    inner class BrandModelViewHolder(parent: ViewGroup) :
+        RecyclerView.ViewHolder(parent)
+
+    inner class BrandModelAsyncViewHolder(context: Context) :
+        AsyncViewHolder<BrandModelItemBinding, BrandsModel>(context) {
+
+        override fun createDataBindingView(view: View): View? {
+            binding = BrandModelItemBinding.bind(view)
+            return binding?.root
+        }
+
+        override fun bind(model: BrandsModel) {
             var brandName = ""
-            binding.subtitle.text = model.name
+            binding?.subtitle?.text = model.name
             viewModel.getBrandName(model.brandNumber).observe(lifecycleOwner) {
-                binding.imgName = it.toUrlComplement()
+                binding?.imgName = it.toUrlComplement()
                 brandName = it
             }
 
-            binding.modelsLayout.setOnClickListener {
+            binding?.modelsLayout?.setOnClickListener {
                 onClickListener(model.copy(brandName = brandName))
             }
         }
