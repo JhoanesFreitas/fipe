@@ -6,18 +6,22 @@ import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
 import com.cajusoftware.fipe.utils.NetworkUtils.exceptionHandler
 import com.cajusoftware.fipe.utils.RetryCallback
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
+
+private const val FIRST_BRAND_NUMBER = "1"
 
 class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : ViewModel() {
 
-    private var brandNumber: String = ""
+    private var oldJob: Job? = null
 
     val vehicleBrands: LiveData<List<Brand>> = repository.vehicleBrands.asLiveData()
 
-    val brandsModels: LiveData<List<BrandsModel>> =
-        repository.getBrandsModels(brandNumber).asLiveData()
-
-    val firstBrand: LiveData<Brand?> = repository.firstVehicleBrands.asLiveData()
+    private val _brandModels: MutableLiveData<List<BrandsModel>?> = MutableLiveData()
+    val brandsModels: LiveData<List<BrandsModel>?>
+        get() = _brandModels
 
     private val _isModelLoading: MutableLiveData<Boolean> = MutableLiveData(true)
     val isModelLoading: LiveData<Boolean>
@@ -27,8 +31,12 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
     val isBrandLoading: LiveData<Boolean>
         get() = _isBrandLoading
 
+    val scope: CoroutineScope
+        get() = viewModelScope
+
     init {
         getAllBrands()
+        getBrandsModels(FIRST_BRAND_NUMBER)
     }
 
     private fun getAllBrands() {
@@ -38,14 +46,20 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
     }
 
     fun fetchBrandsModels(brandNumber: String) {
-        this.brandNumber = brandNumber
         viewModelScope.launch(exceptionHandler + RetryCallback { fetchBrandsModels(brandNumber) }) {
             repository.fetchBrandsModels(brandNumber)
         }
     }
 
-    fun getBrandsModels(brandNumber: String?) =
-        brandNumber?.let { repository.getBrandsModels(it).asLiveData() }
+    fun getBrandsModels(brandNumber: String) {
+        _brandModels.postValue(null)
+        oldJob?.cancel()
+        oldJob = viewModelScope.launch {
+            repository.getBrandsModels(brandNumber).cancellable().collect {
+                _brandModels.postValue(it)
+            }
+        }
+    }
 
     fun getBrandName(brandNumber: String): LiveData<String> {
         return repository.getBrandName(brandNumber).asLiveData()

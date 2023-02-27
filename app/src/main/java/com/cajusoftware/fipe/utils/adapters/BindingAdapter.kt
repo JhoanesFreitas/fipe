@@ -27,7 +27,7 @@ fun setViewVisibility(view: View, isVisible: Boolean) {
     else view.gone()
 }
 
-@BindingAdapter("app:visibility")
+@BindingAdapter("app:animation")
 fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
     if (isVisible) {
         view.startShimmer()
@@ -41,7 +41,7 @@ fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
 @BindingAdapter("listData")
 fun bindRecyclerView(
     recyclerView: RecyclerView,
-    data: List<Nothing>?
+    data: List<Nothing>?,
 ) {
     (recyclerView.adapter as ListAdapter<*, *>).submitList(data)
 }

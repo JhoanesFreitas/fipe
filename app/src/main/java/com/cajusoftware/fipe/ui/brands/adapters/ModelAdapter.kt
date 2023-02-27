@@ -1,4 +1,4 @@
-package com.cajusoftware.fipe.ui.brands.models
+package com.cajusoftware.fipe.ui.brands.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -27,11 +27,12 @@ class ModelAdapter(
         )
     }
 
+
     override fun onBindViewHolder(holder: BrandModelViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    override fun submitList(list: MutableList<BrandsModel>?) {
+    override fun submitList(list: List<BrandsModel>?) {
         super.submitList(list)
         viewModel.setModelLoading(list.isNullOrEmpty())
     }
