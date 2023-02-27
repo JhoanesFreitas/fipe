@@ -10,9 +10,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.cajusoftware.fipe.databinding.FragmentHomeBinding
 import com.cajusoftware.fipe.di.ViewModelProvider
-import com.cajusoftware.fipe.ui.brands.BrandAdapter
+import com.cajusoftware.fipe.ui.brands.adapters.BrandAdapter
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
-import com.cajusoftware.fipe.ui.brands.models.ModelAdapter
+import com.cajusoftware.fipe.ui.brands.adapters.ModelAdapter
 import com.cajusoftware.fipe.utils.NavUtils.navControllerDestinationChangeListener
 
 class HomeFragment : Fragment() {
@@ -35,21 +35,10 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        vehicleBrandViewModel.firstBrand.observe(viewLifecycleOwner) { firstBrand ->
-            binding.brandModelsRecyclerView.adapter?.let {
-                if (it.itemCount == 0) {
-                    firstBrand?.let { brand ->
-                        brand.code.let { code -> vehicleBrandViewModel.fetchBrandsModels(code) }
-                        binding.brandNumber = brand.code
-                    }
-                }
-            }
-        }
-
         binding.lifecycleOwner = viewLifecycleOwner
         binding.brandsRecyclerView.adapter = BrandAdapter(viewModel = vehicleBrandViewModel) {
-            binding.brandNumber = it
             vehicleBrandViewModel.fetchBrandsModels(it)
+            vehicleBrandViewModel.getBrandsModels(it)
         }
         binding.brandModelsRecyclerView.adapter =
             ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner) { brandModel ->

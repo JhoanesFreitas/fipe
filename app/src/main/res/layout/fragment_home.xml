@@ -8,10 +8,6 @@
         <variable
             name="viewModel"
             type="com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel" />
-
-        <variable
-            name="brandNumber"
-            type="String" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -88,12 +84,12 @@
                     android:id="@+id/brand_models_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
                     android:clipToPadding="false"
                     android:fillViewport="false"
                     android:orientation="vertical"
-                    android:layout_alignParentTop="true"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:listData="@{viewModel.getBrandsModels(brandNumber)}"
+                    app:listData="@{viewModel.brandsModels}"
                     tools:listitem="@layout/brand_model_item" />
 
                 <include

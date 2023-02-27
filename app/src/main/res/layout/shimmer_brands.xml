@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
-        app:visibility="@{viewModel.isBrandLoading}">
+        app:animation="@{viewModel.isBrandLoading}">
 
         <LinearLayout
             android:layout_width="wrap_content"

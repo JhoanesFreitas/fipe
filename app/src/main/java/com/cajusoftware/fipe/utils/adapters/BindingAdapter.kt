@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
@@ -17,6 +16,7 @@ import com.cajusoftware.fipe.R.string.brand_name_description
 import com.cajusoftware.fipe.data.domain.Historic
 import com.cajusoftware.fipe.data.network.ConnectivityStatus
 import com.cajusoftware.fipe.data.network.ConnectivityStatus.OFFLINE
+import com.cajusoftware.fipe.ui.brands.adapters.DiffAdapter
 import com.cajusoftware.fipe.ui.components.ChartView
 import com.cajusoftware.fipe.utils.exts.*
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -27,7 +27,7 @@ fun setViewVisibility(view: View, isVisible: Boolean) {
     else view.gone()
 }
 
-@BindingAdapter("app:visibility")
+@BindingAdapter("app:animation")
 fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
     if (isVisible) {
         view.startShimmer()
@@ -41,9 +41,9 @@ fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
 @BindingAdapter("listData")
 fun bindRecyclerView(
     recyclerView: RecyclerView,
-    data: List<Nothing>?
+    data: List<Nothing>?,
 ) {
-    (recyclerView.adapter as ListAdapter<*, *>).submitList(data)
+    (recyclerView.adapter as DiffAdapter<*>).submitList(data)
 }
 
 @BindingAdapter("imageUrl")

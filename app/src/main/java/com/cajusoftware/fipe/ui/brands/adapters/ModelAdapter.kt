@@ -1,10 +1,10 @@
-package com.cajusoftware.fipe.ui.brands.models
+package com.cajusoftware.fipe.ui.brands.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.databinding.BrandModelItemBinding
@@ -15,7 +15,10 @@ class ModelAdapter(
     private val viewModel: VehicleBrandViewModel,
     private val lifecycleOwner: LifecycleOwner,
     private val onClickListener: ((BrandsModel) -> Unit)
-) : ListAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
+) : RecyclerView.Adapter<ModelAdapter.BrandModelViewHolder>(), DiffAdapter<BrandsModel> {
+
+    override val asyncListDiff: AsyncListDiffer<BrandsModel> =
+        AsyncListDiffer(this, DiffCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
         return BrandModelViewHolder(
@@ -27,13 +30,15 @@ class ModelAdapter(
         )
     }
 
+    override fun getItemCount(): Int = asyncListDiff.currentList.size
+
     override fun onBindViewHolder(holder: BrandModelViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(asyncListDiff.currentList[position])
     }
 
-    override fun submitList(list: MutableList<BrandsModel>?) {
-        super.submitList(list)
+    override fun submitList(list: List<BrandsModel>?) {
         viewModel.setModelLoading(list.isNullOrEmpty())
+        asyncListDiff.submitList(list)
     }
 
     inner class BrandModelViewHolder(private val binding: BrandModelItemBinding) :

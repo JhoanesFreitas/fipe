@@ -1,13 +1,14 @@
-package com.cajusoftware.fipe.ui.brands
+package com.cajusoftware.fipe.ui.brands.adapters
 
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.databinding.BrandItemBinding
+import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
 import com.cajusoftware.fipe.utils.exts.gone
 import com.cajusoftware.fipe.utils.exts.toUrlComplement
 import com.cajusoftware.fipe.utils.exts.visible
@@ -15,20 +16,24 @@ import com.cajusoftware.fipe.utils.exts.visible
 class BrandAdapter(
     private val viewModel: VehicleBrandViewModel,
     private val clickCallback: (brandNumber: String) -> Unit
-) :
-    ListAdapter<Brand, BrandAdapter.BrandViewHolder>(DiffCallback) {
+) : RecyclerView.Adapter<BrandAdapter.BrandViewHolder>(), DiffAdapter<Brand> {
+
+    override val asyncListDiff: AsyncListDiffer<Brand> =
+        AsyncListDiffer(this, BrandAdapter)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandViewHolder {
         return BrandViewHolder(BrandItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
+    override fun getItemCount(): Int = asyncListDiff.currentList.size
+
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(asyncListDiff.currentList[position])
     }
 
-    override fun submitList(list: MutableList<Brand>?) {
-        super.submitList(list)
+    override fun submitList(list: List<Brand>?) {
         viewModel.setBrandLoading(list.isNullOrEmpty())
+        asyncListDiff.submitList(list)
     }
 
     inner class BrandViewHolder(private val binding: BrandItemBinding) :
@@ -58,6 +63,5 @@ class BrandAdapter(
         override fun areContentsTheSame(oldItem: Brand, newItem: Brand): Boolean {
             return oldItem == newItem
         }
-
     }
 }
