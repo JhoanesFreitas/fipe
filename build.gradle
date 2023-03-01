@@ -29,6 +29,7 @@ buildscript {
 
         //data
         room_version = '2.5.0'
+        paging_version = '3.1.1'
 
         //network
         moshi_version = '1.13.0'

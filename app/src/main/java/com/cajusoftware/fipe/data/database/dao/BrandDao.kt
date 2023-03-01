@@ -1,6 +1,7 @@
 package com.cajusoftware.fipe.data.database.dao
 
 import androidx.room.*
+import com.cajusoftware.fipe.BuildConfig.PAGE_SIZE
 import com.cajusoftware.fipe.data.database.dtos.BrandDto
 import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +25,13 @@ interface BrandDao {
 
     @Query("SELECT * from brand_model WHERE brand = :brandCode")
     fun getBrandModels(brandCode: String): Flow<List<BrandModelDto>>
+
+    @Query("SELECT * from brand_model WHERE brand = :brandCode ORDER BY name LIMIT :limit OFFSET :pagingNumber")
+    suspend fun getBrandModelsForPaging(
+        brandCode: String,
+        pagingNumber: Int,
+        limit: Int = PAGE_SIZE
+    ): List<BrandModelDto>
 
     @Query("SELECT name from vehicle_brand WHERE code = :brandCode")
     fun getBrandNameByBrandCode(brandCode: String): Flow<String>

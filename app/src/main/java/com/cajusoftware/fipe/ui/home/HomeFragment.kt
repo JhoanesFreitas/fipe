@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.cajusoftware.fipe.databinding.FragmentHomeBinding
 import com.cajusoftware.fipe.di.ViewModelProvider
-import com.cajusoftware.fipe.ui.brands.adapters.BrandAdapter
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
+import com.cajusoftware.fipe.ui.brands.adapters.BrandAdapter
 import com.cajusoftware.fipe.ui.brands.adapters.ModelAdapter
 import com.cajusoftware.fipe.utils.NavUtils.navControllerDestinationChangeListener
 

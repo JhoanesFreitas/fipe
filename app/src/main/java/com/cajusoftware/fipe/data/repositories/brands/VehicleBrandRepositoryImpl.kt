@@ -1,13 +1,16 @@
 package com.cajusoftware.fipe.data.repositories.brands
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.cajusoftware.fipe.BuildConfig.PAGE_PREFETCH_DISTANCE
+import com.cajusoftware.fipe.BuildConfig.PAGE_SIZE
 import com.cajusoftware.fipe.data.database.dao.BrandDao
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.network.services.VehicleApiService
-import com.cajusoftware.fipe.utils.exts.asBrand
-import com.cajusoftware.fipe.utils.exts.asBrandModel
-import com.cajusoftware.fipe.utils.exts.asBrandModelDto
-import com.cajusoftware.fipe.utils.exts.asVehicleBrandDto
+import com.cajusoftware.fipe.data.repositories.models.sources.ModelsPagingSource
+import com.cajusoftware.fipe.utils.exts.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -47,5 +50,12 @@ class VehicleBrandRepositoryImpl(
 
     override fun getBrandsModels(brandNumber: String): Flow<List<BrandsModel>> =
         brandDao.getBrandModels(brandNumber).map { it.asBrandModel() }
+
+    override fun getPagingBrandsModels(brandNumber: String): Flow<PagingData<BrandsModel>> =
+        Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE, prefetchDistance = PAGE_PREFETCH_DISTANCE),
+            pagingSourceFactory = { ModelsPagingSource(brandNumber, brandDao) })
+            .flow
+            .toDataDomain()
 
 }

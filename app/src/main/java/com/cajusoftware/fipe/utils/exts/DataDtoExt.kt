@@ -1,10 +1,14 @@
 package com.cajusoftware.fipe.utils.exts
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.cajusoftware.fipe.data.database.dtos.*
 import com.cajusoftware.fipe.data.domain.*
 import com.cajusoftware.fipe.data.network.model.BrandModelResponseDto
 import com.cajusoftware.fipe.data.network.model.BrandResponseDto
 import com.cajusoftware.fipe.data.network.model.VehicleResponseDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 fun List<VehicleDto>.asVehicleResponseDto(): List<VehicleResponseDto> =
     map {
@@ -89,3 +93,11 @@ fun List<PriceDto>.asPrice() =
 
 fun PriceDto.asPrice() =
     Price(price, month, reference)
+
+fun PagingData<BrandModelDto>.toDataDomain(): PagingData<BrandsModel> {
+    return this.map { it.asBrandModel() }
+}
+
+fun Flow<PagingData<BrandModelDto>>.toDataDomain(): Flow<PagingData<BrandsModel>> {
+    return this.map { it.toDataDomain() }
+}

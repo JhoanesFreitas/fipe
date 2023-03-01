@@ -8,18 +8,26 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.paging.PagedList
+import androidx.paging.PagedListAdapter
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.request.CachePolicy
 import com.cajusoftware.fipe.R
 import com.cajusoftware.fipe.R.string.brand_name_description
+import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.domain.Historic
 import com.cajusoftware.fipe.data.network.ConnectivityStatus
 import com.cajusoftware.fipe.data.network.ConnectivityStatus.OFFLINE
+import com.cajusoftware.fipe.ui.brands.adapters.ModelAdapter
 import com.cajusoftware.fipe.ui.components.ChartView
 import com.cajusoftware.fipe.utils.exts.*
 import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @BindingAdapter("app:visibility")
 fun setViewVisibility(view: View, isVisible: Boolean) {
@@ -44,6 +52,14 @@ fun bindRecyclerView(
     data: List<Nothing>?,
 ) {
     (recyclerView.adapter as ListAdapter<*, *>).submitList(data)
+}
+
+@BindingAdapter("listDataPaging")
+fun bindRecyclerViewPaging(
+    recyclerView: RecyclerView,
+    data: PagingData<BrandsModel>?
+) {
+    (recyclerView.adapter as ModelAdapter).submitPagingData(pagingData = data)
 }
 
 @BindingAdapter("imageUrl")

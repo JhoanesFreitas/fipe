@@ -1,6 +1,8 @@
 package com.cajusoftware.fipe.ui.brands
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
@@ -9,6 +11,7 @@ import com.cajusoftware.fipe.utils.RetryCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 private const val FIRST_BRAND_NUMBER = "1"
@@ -19,8 +22,8 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
 
     val vehicleBrands: LiveData<List<Brand>> = repository.vehicleBrands.asLiveData()
 
-    private val _brandModels: MutableLiveData<List<BrandsModel>?> = MutableLiveData()
-    val brandsModels: LiveData<List<BrandsModel>?>
+    private val _brandModels: MutableLiveData<PagingData<BrandsModel>?> = MutableLiveData()
+    val brandsModels: LiveData<PagingData<BrandsModel>?>
         get() = _brandModels
 
     private val _isModelLoading: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -52,12 +55,13 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
     }
 
     fun getBrandsModels(brandNumber: String) {
-        _brandModels.postValue(null)
+        setModelLoading(true)
         oldJob?.cancel()
         oldJob = viewModelScope.launch {
-            repository.getBrandsModels(brandNumber).cancellable().collect {
-                _brandModels.postValue(it)
-            }
+            repository.getPagingBrandsModels(brandNumber)
+                .cancellable()
+                .cachedIn(viewModelScope)
+                .collectLatest { _brandModels.postValue(it) }
         }
     }
 

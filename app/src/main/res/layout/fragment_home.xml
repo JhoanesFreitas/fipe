@@ -89,7 +89,7 @@
                     android:fillViewport="false"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:listData="@{viewModel.brandsModels}"
+                    app:listDataPaging="@{viewModel.brandsModels}"
                     tools:listitem="@layout/brand_model_item" />
 
                 <include

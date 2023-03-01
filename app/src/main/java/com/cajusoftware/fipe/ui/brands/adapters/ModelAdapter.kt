@@ -3,19 +3,21 @@ package com.cajusoftware.fipe.ui.brands.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.databinding.BrandModelItemBinding
 import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
 import com.cajusoftware.fipe.utils.exts.toUrlComplement
+import kotlinx.coroutines.launch
 
 class ModelAdapter(
     private val viewModel: VehicleBrandViewModel,
     private val lifecycleOwner: LifecycleOwner,
     private val onClickListener: ((BrandsModel) -> Unit)
-) : ListAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
+) : PagingDataAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
         return BrandModelViewHolder(
@@ -29,12 +31,14 @@ class ModelAdapter(
 
 
     override fun onBindViewHolder(holder: BrandModelViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun submitList(list: List<BrandsModel>?) {
-        super.submitList(list)
-        viewModel.setModelLoading(list.isNullOrEmpty())
+    fun submitPagingData(pagingData: PagingData<BrandsModel>?) {
+        viewModel.scope.launch {
+            pagingData?.let { submitData(it) }
+            viewModel.setModelLoading(false)
+        }
     }
 
     inner class BrandModelViewHolder(private val binding: BrandModelItemBinding) :
