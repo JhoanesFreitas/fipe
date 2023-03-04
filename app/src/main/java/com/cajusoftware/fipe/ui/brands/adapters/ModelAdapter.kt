@@ -2,21 +2,17 @@ package com.cajusoftware.fipe.ui.brands.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.paging.PagingData
+import androidx.paging.CombinedLoadStates
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.databinding.BrandModelItemBinding
-import com.cajusoftware.fipe.ui.brands.VehicleBrandViewModel
 import com.cajusoftware.fipe.utils.exts.toUrlComplement
-import kotlinx.coroutines.launch
 
 class ModelAdapter(
-    private val viewModel: VehicleBrandViewModel,
-    private val lifecycleOwner: LifecycleOwner,
-    private val onClickListener: ((BrandsModel) -> Unit)
+    private val onBrandNameListener: (String, (String) -> Unit) -> Unit,
+    private val onClickListener: (BrandsModel) -> Unit
 ) : PagingDataAdapter<BrandsModel, ModelAdapter.BrandModelViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BrandModelViewHolder {
@@ -29,16 +25,12 @@ class ModelAdapter(
         )
     }
 
+    fun stateFlow(stateCallback: (CombinedLoadStates) -> Unit) {
+        addLoadStateListener(stateCallback)
+    }
 
     override fun onBindViewHolder(holder: BrandModelViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
-    }
-
-    fun submitPagingData(pagingData: PagingData<BrandsModel>?) {
-        viewModel.scope.launch {
-            pagingData?.let { submitData(it) }
-            viewModel.setModelLoading(false)
-        }
     }
 
     inner class BrandModelViewHolder(private val binding: BrandModelItemBinding) :
@@ -46,7 +38,8 @@ class ModelAdapter(
         fun bind(model: BrandsModel) {
             var brandName = ""
             binding.subtitle.text = model.name
-            viewModel.getBrandName(model.brandNumber).observe(lifecycleOwner) {
+
+            onBrandNameListener(model.brandNumber) {
                 binding.imgName = it.toUrlComplement()
                 brandName = it
             }

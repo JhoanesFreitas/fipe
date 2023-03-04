@@ -1,8 +1,11 @@
 package com.cajusoftware.fipe.ui.brands
 
 import androidx.lifecycle.*
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.cajusoftware.fipe.data.database.NoItemAddedException
 import com.cajusoftware.fipe.data.domain.Brand
 import com.cajusoftware.fipe.data.domain.BrandsModel
 import com.cajusoftware.fipe.data.repositories.brands.VehicleBranchRepository
@@ -10,6 +13,7 @@ import com.cajusoftware.fipe.utils.NetworkUtils.exceptionHandler
 import com.cajusoftware.fipe.utils.RetryCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -22,8 +26,8 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
 
     val vehicleBrands: LiveData<List<Brand>> = repository.vehicleBrands.asLiveData()
 
-    private val _brandModels: MutableLiveData<PagingData<BrandsModel>?> = MutableLiveData()
-    val brandsModels: LiveData<PagingData<BrandsModel>?>
+    private val _brandModels: MutableLiveData<PagingData<BrandsModel>> = MutableLiveData()
+    val brandsModels: LiveData<PagingData<BrandsModel>>
         get() = _brandModels
 
     private val _isModelLoading: MutableLiveData<Boolean> = MutableLiveData(true)
@@ -39,6 +43,7 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
 
     init {
         getAllBrands()
+        fetchBrandsModels(FIRST_BRAND_NUMBER)
         getBrandsModels(FIRST_BRAND_NUMBER)
     }
 
@@ -75,5 +80,26 @@ class VehicleBrandViewModel(private val repository: VehicleBranchRepository) : V
 
     fun setBrandLoading(isLoading: Boolean) {
         _isBrandLoading.postValue(isLoading)
+    }
+
+    fun checkLoadState(loadState: CombinedLoadStates) {
+        loadState.apply {
+            (refresh as? LoadState.Error)?.error?.apply {
+                (this as? NoItemAddedException)?.apply {
+                    val itemCode = this.itemCode
+                    viewModelScope.launch {
+                        delay(2000)
+                        getBrandsModels(itemCode)
+                    }
+                }
+            }
+            if (refresh is LoadState.NotLoading) {
+                viewModelScope.launch {
+                    delay(500)
+                    setModelLoading(false)
+                }
+            }
+
+        }
     }
 }

@@ -23,6 +23,12 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
+    private val onBrandNameListener: (String, (String) -> Unit) -> Unit = { brandNumber, callback ->
+        vehicleBrandViewModel.getBrandName(brandNumber).observe(viewLifecycleOwner) {
+            callback(it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController = findNavController()
@@ -35,23 +41,26 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.brandsRecyclerView.adapter = BrandAdapter(viewModel = vehicleBrandViewModel) {
-            vehicleBrandViewModel.fetchBrandsModels(it)
-            vehicleBrandViewModel.getBrandsModels(it)
-        }
-        binding.brandModelsRecyclerView.adapter =
-            ModelAdapter(vehicleBrandViewModel, viewLifecycleOwner) { brandModel ->
-                navController.navigate(
-                    HomeFragmentDirections.actionHomeFragmentToVehicleFragment(
-                        brandModel.code,
-                        brandModel.name,
-                        brandModel.brandNumber,
-                        brandModel.brandName,
-                    )
-                )
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            brandsRecyclerView.adapter = BrandAdapter(viewModel = vehicleBrandViewModel) {
+                vehicleBrandViewModel.fetchBrandsModels(it)
+                vehicleBrandViewModel.getBrandsModels(it)
             }
-        binding.viewModel = vehicleBrandViewModel
+
+            brandModelsRecyclerView.adapter =
+                ModelAdapter(onBrandNameListener) { brandModel ->
+                    navController.navigate(
+                        HomeFragmentDirections.actionHomeFragmentToVehicleFragment(
+                            brandModel.code,
+                            brandModel.name,
+                            brandModel.brandNumber,
+                            brandModel.brandName,
+                        )
+                    )
+                }.apply { stateFlow(vehicleBrandViewModel::checkLoadState) }
+            viewModel = vehicleBrandViewModel
+        }
 
         return binding.root
     }

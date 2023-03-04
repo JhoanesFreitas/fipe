@@ -1,8 +1,10 @@
 package com.cajusoftware.fipe.data.repositories.models.sources
 
+import android.content.res.Resources.NotFoundException
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.cajusoftware.fipe.BuildConfig.PAGE_SIZE
+import com.cajusoftware.fipe.data.database.NoItemAddedException
 import com.cajusoftware.fipe.data.database.dao.BrandDao
 import com.cajusoftware.fipe.data.database.dtos.BrandModelDto
 import kotlinx.coroutines.Dispatchers
@@ -30,16 +32,16 @@ class ModelsPagingSource(
             try {
                 val result = brandDao.getBrandModelsForPaging(brandCode, pageIndex)
 
-                val nextKey =
-                    if (result.isEmpty()) null
-                    else pageIndex + PAGE_SIZE
+                if (pageIndex < 1 && result.isEmpty()) throw NoItemAddedException(brandCode)
 
                 LoadResult.Page(
                     data = result,
                     prevKey = if (pageIndex == STARTING_PAGING_INDEX) null else pageIndex,
-                    nextKey = nextKey
+                    nextKey = if (result.isEmpty()) null else pageIndex + PAGE_SIZE
                 )
             } catch (e: IOException) {
+                LoadResult.Error(e)
+            } catch (e: NotFoundException) {
                 LoadResult.Error(e)
             }
         }
