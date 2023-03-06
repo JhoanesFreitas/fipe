@@ -31,6 +31,12 @@ fun setViewVisibility(view: View, isVisible: Boolean) {
     else view.gone()
 }
 
+@BindingAdapter("visibility")
+fun setVisibility(recyclerView: RecyclerView, isVisible: Boolean) {
+    if (isVisible) recyclerView.visible()
+    else recyclerView.invisible()
+}
+
 @BindingAdapter("app:animation")
 fun setShimmerVisibility(view: ShimmerFrameLayout, isVisible: Boolean) {
     if (isVisible) {
@@ -64,6 +70,7 @@ fun bindRecyclerViewPaging(
 
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imageName: String?) {
+    imageView.visible()
     imageName?.let {
         imageView.load(it.toImageUri()) {
             placeholder(R.drawable.loading_animation)
